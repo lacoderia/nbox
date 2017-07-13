@@ -1,0 +1,2 @@
+class ExpirationsController < ApplicationController
+end

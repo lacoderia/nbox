@@ -1,6 +1,10 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  ENV['HOST'] = "servicios.coderia.mx"
+  ENV['WP_HOST'] = "n-box.com.mx"
+  ENV['CONEKTA_KEY'] = 'key_5RX7V5fz7TMCqypQWJuPnA'
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 
@@ -83,4 +87,24 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  ENV['ADDRESS'] = "smtp.gmail.com"
+  ENV['DOMAIN_NAME'] = "coderia.mx"
+  ENV['MAIL_USERNAME'] = "benjamin@coderia.mx"
+  ENV['MAIL_PASSWORD'] = ""
+
+   config.action_mailer.smtp_settings = {
+    address: ENV["ADDRESS"],
+    port: 587,
+    domain: ENV["DOMAIN_NAME"],
+    authentication: "plain",
+    enable_starttls_auto: true,
+    user_name: ENV["MAIL_USERNAME"],
+    password: ENV["MAIL_PASSWORD"]
+  }
+  # ActionMailer Config
+  config.action_mailer.default_url_options = { :host => ENV["HOST"] }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = false
 end
