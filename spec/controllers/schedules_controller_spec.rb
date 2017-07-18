@@ -21,6 +21,7 @@ feature 'SchedulesController' do
         visit weekly_scope_schedules_path
         response = JSON.parse(page.body)
         expect(response['schedules'].count).to eql 2
+        expect(response['schedules'][0]["schedule_type"]).not_to be nil
         expect(response['schedules'][0]['id']).to eql schedule_current_week_01.id
         expect(response['schedules'][0]['description']).to eql "semana uno"
         expect(response['schedules'][1]['id']).to eql schedule_current_week_02.id

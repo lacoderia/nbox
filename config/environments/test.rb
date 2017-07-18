@@ -3,7 +3,7 @@ Rails.application.configure do
 
   ENV['HOST'] = "localhost:3000"
   ENV['WP_HOST'] = "localhost:3000"
-  ENV['CONEKTA_KEY'] = 'key_5RX7V5fz7TMCqypQWJuPnA'
+  ENV['CONEKTA_KEY'] = 'key_8ieGVhxzTt5fcSYUyE4Tig'
 
   # The test environment is used exclusively to run your application's
   # test suite. You never need to work with it otherwise. Remember that

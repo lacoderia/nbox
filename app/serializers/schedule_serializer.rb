@@ -1,6 +1,6 @@
 class ScheduleSerializer < ActiveModel::Serializer
 
-  attributes :id, :datetime, :room, :instructor, :available_seats, :description, :free
+  attributes :id, :datetime, :room, :instructor, :available_seats, :description, :free, :schedule_type
 
   def room
     room_obj = {}

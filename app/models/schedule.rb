@@ -1,10 +1,9 @@
 class Schedule < ActiveRecord::Base
   belongs_to :instructor
   belongs_to :room
+  belongs_to :schedule_type
   has_many :appointments, :dependent => :delete_all
 
-  #scope :for_instructor_payments, -> {select("schedules.*, COUNT(appointments.*) as app_num").joins(:appointments, :instructor).where("appointments.status = ?", "FINALIZED").group("schedules.id").group_by{|schedule| schedule.datetime.to_date.to_s}}
-  
   def self.weekly_scope
     start_day = Time.zone.now.beginning_of_day
     end_day = start_day + 8.days
