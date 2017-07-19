@@ -18,38 +18,38 @@ role_niumedia = Role.create(name: 'niumedia')
 #Instructors
 
 #Ale
-instructor_ale = Instructor.create(first_name: "Ale", last_name: "", picture: "http://www.n-bici.com/wp-content/uploads/2016/05/ale.png", picture_2: "http://www.n-bici.com/wp-content/uploads/2016/05/ale.png", bio: "", quote: "Train with style!")
-AdminUser.create!(email: 'ale@n-bici.com', password: 'password', password_confirmation: 'password', roles: [role_instructor], instructor: instructor_ale)
+instructor_ale = Instructor.create(first_name: "Ale", last_name: "", picture: "http://www.n-box.com.mx/wp-content/uploads/2016/05/ale.png", picture_2: "http://www.n-box.com.mx/wp-content/uploads/2016/05/ale.png", bio: "", quote: "Train with style!")
+AdminUser.create!(email: 'ale@n-box.com.mx', password: 'password', password_confirmation: 'password', roles: [role_instructor], instructor: instructor_ale)
 
-instructor_samuel = Instructor.create(first_name: "Samuel", last_name: "", picture: "http://www.n-bici.com/wp-content/uploads/2016/05/tucan.png", picture_2: "http://www.n-bici.com/wp-content/uploads/2016/05/tucan.png", bio: "", quote: "Pain is temporary, pride is forever.")
-AdminUser.create!(email: 'samuel@n-bici.com', password: 'password', password_confirmation: 'password', roles: [role_instructor], instructor: instructor_samuel)
+instructor_samuel = Instructor.create(first_name: "Samuel", last_name: "", picture: "http://www.n-box.com.mx/wp-content/uploads/2016/05/tucan.png", picture_2: "http://www.n-box.com.mx/wp-content/uploads/2016/05/tucan.png", bio: "", quote: "Pain is temporary, pride is forever.")
+AdminUser.create!(email: 'samuel@n-box.com.mx', password: 'password', password_confirmation: 'password', roles: [role_instructor], instructor: instructor_samuel)
 
-instructor_maca = Instructor.create(first_name: "Maca", last_name: "", picture: "http://www.n-bici.com/wp-content/uploads/2016/05/macarena.png", picture_2: "http://www.n-bici.com/wp-content/uploads/2016/05/macarena.png", bio: "", quote: "Por siempre se compone de ahoras.")
-AdminUser.create!(email: 'maca@n-bici.com', password: 'password', password_confirmation: 'password', roles: [role_instructor], instructor: instructor_maca)
+instructor_maca = Instructor.create(first_name: "Maca", last_name: "", picture: "http://www.n-box.com.mx/wp-content/uploads/2016/05/macarena.png", picture_2: "http://www.n-box.com.mx/wp-content/uploads/2016/05/macarena.png", bio: "", quote: "Por siempre se compone de ahoras.")
+AdminUser.create!(email: 'maca@n-box.com.mx', password: 'password', password_confirmation: 'password', roles: [role_instructor], instructor: instructor_maca)
 
-instructor_isa = Instructor.create(first_name: "Isa", last_name: "", picture: "http://www.n-bici.com/wp-content/uploads/2016/05/isa.png", picture_2: "http://www.n-bici.com/wp-content/uploads/2016/05/isa.png", bio: "", quote: "Deja que la música te haga volar!")
-AdminUser.create!(email: 'isa@n-bici.com', password: 'password', password_confirmation: 'password', roles: [role_instructor], instructor: instructor_isa)
+instructor_isa = Instructor.create(first_name: "Isa", last_name: "", picture: "http://www.n-box.com.mx/wp-content/uploads/2016/05/isa.png", picture_2: "http://www.n-box.com.mx/wp-content/uploads/2016/05/isa.png", bio: "", quote: "Deja que la música te haga volar!")
+AdminUser.create!(email: 'isa@n-box.com.mx', password: 'password', password_confirmation: 'password', roles: [role_instructor], instructor: instructor_isa)
 
-instructor_geor = Instructor.create(first_name: "Geor", last_name: "", picture: "http://www.n-bici.com/wp-content/uploads/2016/05/geor.png", picture_2: "http://www.n-bici.com/wp-content/uploads/2016/05/geor.png", bio: "", quote: "Sé siempre la mejor versión de ti mismo.")
-AdminUser.create!(email: 'geor@n-bici.com', password: 'password', password_confirmation: 'password', roles: [role_instructor], instructor: instructor_geor)
+instructor_geor = Instructor.create(first_name: "Geor", last_name: "", picture: "http://www.n-box.com.mx/wp-content/uploads/2016/05/geor.png", picture_2: "http://www.n-box.com.mx/wp-content/uploads/2016/05/geor.png", bio: "", quote: "Sé siempre la mejor versión de ti mismo.")
+AdminUser.create!(email: 'geor@n-box.com.mx', password: 'password', password_confirmation: 'password', roles: [role_instructor], instructor: instructor_geor)
 
-instructor_miguel = Instructor.create(first_name: "Miguel", last_name: "", picture: "http://www.n-bici.com/wp-content/uploads/2016/05/miguel.png", picture_2: "http://www.n-bici.com/wp-content/uploads/2016/05/miguel.png", bio: "", quote: "Sé el cambio que deseas ver en el mundo.")
-AdminUser.create!(email: 'miguel@n-bici.com', password: 'password', password_confirmation: 'password', roles: [role_instructor], instructor: instructor_miguel)
+instructor_miguel = Instructor.create(first_name: "Miguel", last_name: "", picture: "http://www.n-box.com.mx/wp-content/uploads/2016/05/miguel.png", picture_2: "http://www.n-box.com.mx/wp-content/uploads/2016/05/miguel.png", bio: "", quote: "Sé el cambio que deseas ver en el mundo.")
+AdminUser.create!(email: 'miguel@n-box.com.mx', password: 'password', password_confirmation: 'password', roles: [role_instructor], instructor: instructor_miguel)
 
-instructor_marilu = Instructor.create(first_name: "Marilú", last_name: "", picture: "http://www.n-bici.com/wp-content/uploads/2016/05/m.png", picture_2: "http://www.n-bici.com/wp-content/uploads/2016/05/m.png", bio: "", quote: "Cambia tu cuerpo, tu mente, tu actitud y tu humor.")
-AdminUser.create!(email: 'marilu@n-bici.com', password: 'password', password_confirmation: 'password', roles: [role_instructor], instructor: instructor_marilu)
+instructor_marilu = Instructor.create(first_name: "Marilú", last_name: "", picture: "http://www.n-box.com.mx/wp-content/uploads/2016/05/m.png", picture_2: "http://www.n-box.com.mx/wp-content/uploads/2016/05/m.png", bio: "", quote: "Cambia tu cuerpo, tu mente, tu actitud y tu humor.")
+AdminUser.create!(email: 'marilu@n-box.com.mx', password: 'password', password_confirmation: 'password', roles: [role_instructor], instructor: instructor_marilu)
 
-instructor_diana = Instructor.create(first_name: "Diana", last_name: "", picture: "http://www.n-bici.com/wp-content/uploads/2016/05/diana.png", picture_2: "http://www.n-bici.com/wp-content/uploads/2016/05/diana.png", bio: "", quote: "Que todo fluya y que nada influya.")
-AdminUser.create!(email: 'diana@n-bici.com', password: 'password', password_confirmation: 'password', roles: [role_instructor], instructor: instructor_diana)
+instructor_diana = Instructor.create(first_name: "Diana", last_name: "", picture: "http://www.n-box.com.mx/wp-content/uploads/2016/05/diana.png", picture_2: "http://www.n-box.com.mx/wp-content/uploads/2016/05/diana.png", bio: "", quote: "Que todo fluya y que nada influya.")
+AdminUser.create!(email: 'diana@n-box.com.mx', password: 'password', password_confirmation: 'password', roles: [role_instructor], instructor: instructor_diana)
 
-instructor_sofi = Instructor.create(first_name: "Sofia V", last_name: "", picture: "http://www.n-bici.com/wp-content/uploads/2016/05/sofiav.png", picture_2: "http://www.n-bici.com/wp-content/uploads/2016/05/sofiav.png", bio: "", quote: "Mueve al ritmo de la música todo tu cuerpo.")
-AdminUser.create!(email: 'sofi@n-bici.com', password: 'password', password_confirmation: 'password', roles: [role_instructor], instructor: instructor_sofi)
+instructor_sofi = Instructor.create(first_name: "Sofia V", last_name: "", picture: "http://www.n-box.com.mx/wp-content/uploads/2016/05/sofiav.png", picture_2: "http://www.n-box.com.mx/wp-content/uploads/2016/05/sofiav.png", bio: "", quote: "Mueve al ritmo de la música todo tu cuerpo.")
+AdminUser.create!(email: 'sofi@n-box.com.mx', password: 'password', password_confirmation: 'password', roles: [role_instructor], instructor: instructor_sofi)
 
 #Active Admin User
-AdminUser.create!(email: 'admin@n-bici.com', password: 'password', password_confirmation: 'password', roles: [role_super_admin])
+AdminUser.create!(email: 'admin@n-box.com.mx', password: 'password', password_confirmation: 'password', roles: [role_super_admin])
 
 #Front desk
-AdminUser.create!(email: 'info@n-bici.com', password: 'password', password_confirmation: 'password', roles: [role_front_desk])
+AdminUser.create!(email: 'info@n-box.com.mx', password: 'password', password_confirmation: 'password', roles: [role_front_desk])
 
 #Niumedia
 AdminUser.create!(email: 'admin@niumedia.mx', password: 'niumedia', password_confirmation: 'niumedia', roles: [role_niumedia])
