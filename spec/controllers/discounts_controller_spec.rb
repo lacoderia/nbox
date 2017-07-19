@@ -6,7 +6,7 @@ feature 'DiscountsController' do
   let!(:pack_with_discount){create(:pack, special_price: 100.00)}
   let!(:coupon_discount){create(:config, :coupon_discount)}
   let!(:promotion){create(:promotion)}
-  let!(:promotion_mega){create(:promotion, amount: 1000, coupon: "nbicimega")}
+  let!(:promotion_mega){create(:promotion, amount: 1000, coupon: "nboxmega")}
   let!(:inactive_promotion){create(:promotion, :inactive, coupon: "INACTIVE")}
 
   context 'Coupon discount methods' do

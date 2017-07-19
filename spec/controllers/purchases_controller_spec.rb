@@ -15,7 +15,7 @@ feature 'PurchasesController' do
   let!(:card_05){create(:card, :amex, user: user_05)}
   let!(:card_no_funds){create(:card, :no_funds, user: user_01)}
   let!(:promotion){create(:promotion)}
-  let!(:promotion_mega){create(:promotion, amount: 500, coupon: "nbiciMEGA")}
+  let!(:promotion_mega){create(:promotion, amount: 500, coupon: "nboxMEGA")}
 
   context 'Create a new purchase' do
 
@@ -170,7 +170,7 @@ feature 'PurchasesController' do
       access_token_1, uid_1, client_1, expiry_1, token_type_1 = get_headers
       set_headers access_token_1, uid_1, client_1, expiry_1, token_type_1
 
-      new_purchase_request = {pack_id: pack.id, price: pack.price - promotion.amount, uid: card.uid, coupon: "NbiCI"}
+      new_purchase_request = {pack_id: pack.id, price: pack.price - promotion.amount, uid: card.uid, coupon: "NboX"}
       with_rack_test_driver do
         page.driver.post charge_purchases_path, new_purchase_request
       end
@@ -188,7 +188,7 @@ feature 'PurchasesController' do
       expect(user_01.expiration_date).to be_within(1.second).of (user_01.last_class_purchased + pack.expiration.days)
 
       #Error using the same promo code
-      new_purchase_request = {pack_id: pack.id, price: pack.price - promotion.amount, uid: card.uid, coupon: "NbiCI"}
+      new_purchase_request = {pack_id: pack.id, price: pack.price - promotion.amount, uid: card.uid, coupon: "NboX"}
       with_rack_test_driver do
         page.driver.post charge_purchases_path, new_purchase_request
       end
@@ -198,7 +198,7 @@ feature 'PurchasesController' do
       expect(response["errors"][0]["title"]).to eql "Ya has usado este cupón anteriormente."      
 
       #Promotion code exceeding the cost of the purchase
-      new_purchase_request = {pack_id: pack.id, price: 0, uid: card.uid, coupon: "NBICimega"}
+      new_purchase_request = {pack_id: pack.id, price: 0, uid: card.uid, coupon: "NBOXmega"}
       with_rack_test_driver do
         page.driver.post charge_purchases_path, new_purchase_request
       end
@@ -274,7 +274,7 @@ feature 'PurchasesController' do
       access_token_1, uid_1, client_1, expiry_1, token_type_1 = get_headers
       set_headers access_token_1, uid_1, client_1, expiry_1, token_type_1
 
-      new_purchase_request = {pack_id: pack.id, price: pack.price - promotion.amount, uid: card.uid, coupon: "nbici"}
+      new_purchase_request = {pack_id: pack.id, price: pack.price - promotion.amount, uid: card.uid, coupon: "nbox"}
       with_rack_test_driver do
         page.driver.post charge_purchases_path, new_purchase_request
       end

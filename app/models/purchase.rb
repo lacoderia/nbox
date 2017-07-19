@@ -62,7 +62,7 @@ class Purchase < ActiveRecord::Base
           phone: card.phone,
           line_items: [{
             name: description,
-            description: "Paquete nbici",
+            description: "Paquete nbox",
             unit_price: amount,
             quantity: 1
           }]
