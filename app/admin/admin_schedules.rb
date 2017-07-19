@@ -109,7 +109,7 @@ ActiveAdmin.register Schedule, :as => "Clases" do
       f.input :room, label: "Cuarto", :collection => Room.all.collect{|room| [room.description, room.id]}, :as => :select, :include_blank => false 
       f.input :description, label: "Descripción"
       f.input :free, label: "Gratis"
-      f.input :schedule_type, label: "Tipo de clase", :collection => ScheduleType.active.collect{|s| [ s.description, s.id]}, :as => :select 
+      f.input :schedule_type, label: "Tipo de clase", :collection => ScheduleType.active.collect{|s| [ s.description, s.id]}, :as => :select, :include_blank => false 
     end
     f.actions
   end
