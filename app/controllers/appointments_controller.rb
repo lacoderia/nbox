@@ -3,7 +3,7 @@ class AppointmentsController < ApiController
   
   before_action :authenticate_user!, only: [:book, :cancel, :weekly_scope_for_user, :historic_for_user]
   
-  before_action :set_appointment, only: [:cancel, :edit_bicycle_number]
+  before_action :set_appointment, only: [:cancel, :edit_station_number]
 
   # POST /appointments/book
   def book
@@ -29,9 +29,9 @@ class AppointmentsController < ApiController
     end
   end
 
-  def edit_bicycle_number
+  def edit_station_number
     begin
-      @appointment.edit_bicycle_number(params[:bicycle_number].to_i)
+      @appointment.edit_station_number(params[:station_number].to_i)
       SendEmailJob.perform_later("booking", current_user, @appointment)
       render json: @appointment      
     rescue Exception => e

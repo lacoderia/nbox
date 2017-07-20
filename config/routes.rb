@@ -30,7 +30,7 @@ Rails.application.routes.draw do
     end
     member do
       get 'cancel', :to => "appointments#cancel"
-      match 'edit_bicycle_number', :to => "appointments#edit_bicycle_number", :via => [:post, :options]
+      match 'edit_station_number', :to => "appointments#edit_station_number", :via => [:post, :options]
     end
   end
   resources :emails, except: [:new, :edit]

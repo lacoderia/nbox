@@ -8,7 +8,7 @@ FactoryGirl.define do
     amount 100.00
 
     trait :inactive do
-      coupon "NBICI_INACTIVE"
+      coupon "NBOX_INACTIVE"
       active false
     end
     

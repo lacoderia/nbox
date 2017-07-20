@@ -20,7 +20,7 @@ feature 'RemindersController' do
       access_token_1, uid_1, client_1, expiry_1, token_type_1 = get_headers
       set_headers access_token_1, uid_1, client_1, expiry_1, token_type_1
 
-      new_appointment_request = {schedule_id: schedule.id, bicycle_number: 4, description: "Mi primera clase"}      
+      new_appointment_request = {schedule_id: schedule.id, station_number: 4, description: "Mi primera clase"}      
       with_rack_test_driver do
         page.driver.post book_appointments_path, new_appointment_request
       end

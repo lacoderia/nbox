@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 20170718232635) do
     t.integer  "user_id"
     t.string   "status"
     t.integer  "schedule_id"
-    t.integer  "bicycle_number"
+    t.integer  "station_number"
     t.datetime "start"
     t.string   "description"
     t.text     "anomaly"

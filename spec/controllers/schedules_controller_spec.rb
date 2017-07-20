@@ -7,8 +7,8 @@ feature 'SchedulesController' do
   let!(:schedule_past_week) { create(:schedule, datetime: starting_datetime - 1.day) }
   let!(:schedule_next_week) { create(:schedule, datetime: starting_datetime + 8.days, free: true) }
 
-  let!(:appointment_01) { create(:appointment, schedule: schedule_current_week_01, bicycle_number: 4) }
-  let!(:appointment_02) { create(:appointment, schedule: schedule_current_week_01, bicycle_number: 1) }
+  let!(:appointment_01) { create(:appointment, schedule: schedule_current_week_01, station_number: 4) }
+  let!(:appointment_02) { create(:appointment, schedule: schedule_current_week_01, station_number: 1) }
 
   context 'Get weekly schedules' do
 

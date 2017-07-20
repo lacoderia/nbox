@@ -74,29 +74,29 @@ pack_5 = Pack.create(description: "50 clases", classes: 50, price: 5000.00, expi
 #Venues
 venue = Venue.create(name: "Gimnasio SLP", description: "Gimnasio original")
 
-#Bicycles
-bicycle1 = Bicycle.new(position:1, number:1)
-bicycle2 = Bicycle.new(position:13, number:2)
-bicycle3 = Bicycle.new(position:25, number:3)
-bicycle4 = Bicycle.new(position:37, number:4)
-bicycle5 = Bicycle.new(position:39, number:5)
-bicycle6 = Bicycle.new(position:29, number:6)
-bicycle7 = Bicycle.new(position:19, number:7)
-bicycle8 = Bicycle.new(position:20, number:8)
-bicycle9 = Bicycle.new(position:10, number:9)
-bicycle10 = Bicycle.new(position:34, number:10)
-bicycle11 = Bicycle.new(position:46, number:11)
-bicycle12 = Bicycle.new(position:58, number:12)
-bicycle13 = Bicycle.new(position:70, number:13)
-bicycle14 = Bicycle.new(position:61, number:14)
-bicycle15 = Bicycle.new(position:62, number:15)
-bicycle16 = Bicycle.new(position:52, number:16)
-bicycle17 = Bicycle.new(position:42, number:17)
-bicycle18 = Bicycle.new(position:67, number:18)
-bicycle19 = Bicycle.new(position:79, number:19)
+#Stations
+station1 = Station.new(position:1, number:1)
+station2 = Station.new(position:13, number:2)
+station3 = Station.new(position:25, number:3)
+station4 = Station.new(position:37, number:4)
+station5 = Station.new(position:39, number:5)
+station6 = Station.new(position:29, number:6)
+station7 = Station.new(position:19, number:7)
+station8 = Station.new(position:20, number:8)
+station9 = Station.new(position:10, number:9)
+station10 = Station.new(position:34, number:10)
+station11 = Station.new(position:46, number:11)
+station12 = Station.new(position:58, number:12)
+station13 = Station.new(position:70, number:13)
+station14 = Station.new(position:61, number:14)
+station15 = Station.new(position:62, number:15)
+station16 = Station.new(position:52, number:16)
+station17 = Station.new(position:42, number:17)
+station18 = Station.new(position:67, number:18)
+station19 = Station.new(position:79, number:19)
 
 #Distributions
-distribution = Distribution.create(height: 8, width: 11, description: "distribucion actual", inactive_seats: "", active_seats: Bicycle.to_string_array([bicycle1,bicycle2,bicycle3,bicycle4,bicycle5,bicycle6,bicycle7,bicycle8,bicycle9,bicycle10,bicycle11,bicycle12,bicycle13,bicycle14,bicycle15,bicycle16,bicycle17,bicycle18,bicycle19]), total_seats: 19)
+distribution = Distribution.create(height: 8, width: 11, description: "distribucion actual", inactive_seats: "", active_seats: Station.to_string_array([station1,station2,station3,station4,station5,station6,station7,station8,station9,station10,station11,station12,station13,station14,station15,station16,station17,station18,station19]), total_seats: 19)
 
 #Room
 room = Room.create(venue: venue, distribution: distribution, description: "Salón original")
@@ -249,7 +249,7 @@ Schedule.create(instructor: instructor_geor, room: room, datetime: next_saturday
 Schedule.create(instructor: instructor_ale, room: room, datetime: next_saturday + 12.hours, schedule_type: fb)
 
 #Appointment
-#appointment = Appointment.create(user: user, schedule: schedule_1, bicycle_number: 1, status: 'BOOKED', start: schedule_1.datetime, description: "Con mi maestro favorito")
+#appointment = Appointment.create(user: user, schedule: schedule_1, station_number: 1, status: 'BOOKED', start: schedule_1.datetime, description: "Con mi maestro favorito")
 
 #Configuration
 Config.create(key: "coupon_discount", value: "40")

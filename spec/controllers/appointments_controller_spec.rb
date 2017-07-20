@@ -107,7 +107,7 @@ feature 'AppointmentsController' do
       access_token_1, uid_1, client_1, expiry_1, token_type_1 = get_headers
       set_headers access_token_1, uid_1, client_1, expiry_1, token_type_1
 
-      new_appointment_request = {schedule_id: schedule_free.id, bicycle_number: 4, description: "Mi primera clase"}      
+      new_appointment_request = {schedule_id: schedule_free.id, station_number: 4, description: "Mi primera clase"}      
       with_rack_test_driver do
         page.driver.post book_appointments_path, new_appointment_request
       end
@@ -129,7 +129,7 @@ feature 'AppointmentsController' do
       access_token_1, uid_1, client_1, expiry_1, token_type_1 = get_headers
       set_headers access_token_1, uid_1, client_1, expiry_1, token_type_1
 
-      new_appointment_request = {schedule_id: schedule_free.id, bicycle_number: 3, description: "Mi primera clase"}      
+      new_appointment_request = {schedule_id: schedule_free.id, station_number: 3, description: "Mi primera clase"}      
       with_rack_test_driver do
         page.driver.post book_appointments_path, new_appointment_request
       end
@@ -153,7 +153,7 @@ feature 'AppointmentsController' do
       access_token_1, uid_1, client_1, expiry_1, token_type_1 = get_headers
       set_headers access_token_1, uid_1, client_1, expiry_1, token_type_1
 
-      new_appointment_request = {schedule_id: schedule_free.id, bicycle_number: 4, description: "Mi primera clase"}      
+      new_appointment_request = {schedule_id: schedule_free.id, station_number: 4, description: "Mi primera clase"}      
       with_rack_test_driver do
         page.driver.post book_appointments_path, new_appointment_request
       end
@@ -170,7 +170,7 @@ feature 'AppointmentsController' do
       perform_enqueued_jobs { SendEmailJob.perform_later("booking", user_with_classes_left, Appointment.last) }
 
       #Can't book twice a free schedule
-      new_appointment_request = {schedule_id: schedule_free.id, bicycle_number: 2, description: "Mi primera clase"}      
+      new_appointment_request = {schedule_id: schedule_free.id, station_number: 2, description: "Mi primera clase"}      
       with_rack_test_driver do
         page.driver.post book_appointments_path, new_appointment_request
       end
@@ -183,12 +183,12 @@ feature 'AppointmentsController' do
 
     end
 
-    it 'should test edit bicycle number in an appointment' do
+    it 'should test edit station number in an appointment' do
       page = login_with_service user = { email: user_with_classes_left[:email], password: "12345678" }
       access_token_1, uid_1, client_1, expiry_1, token_type_1 = get_headers
       set_headers access_token_1, uid_1, client_1, expiry_1, token_type_1
 
-      new_appointment_request = {schedule_id: schedule.id, bicycle_number: 4, description: "Mi primera clase"}      
+      new_appointment_request = {schedule_id: schedule.id, station_number: 4, description: "Mi primera clase"}      
       with_rack_test_driver do
         page.driver.post book_appointments_path, new_appointment_request
       end
@@ -203,38 +203,38 @@ feature 'AppointmentsController' do
       expect(SendEmailJob).to have_been_enqueued.with("booking", global_id(user_with_classes_left), global_id(Appointment.last))
       perform_enqueued_jobs { SendEmailJob.perform_later("booking", user_with_classes_left, Appointment.last) } 
 
-      #Error editing bicycle number
-      edit_bicycle_appointment_request = {bicycle_number: 6}
+      #Error editing station number
+      edit_station_appointment_request = {station_number: 6}
       with_rack_test_driver do
-        page.driver.post edit_bicycle_number_appointment_path(appointment.id), edit_bicycle_appointment_request 
+        page.driver.post edit_station_number_appointment_path(appointment.id), edit_station_appointment_request 
       end
       response = JSON.parse(page.body)
       expect(page.status_code).to be 500
-      expect(response["errors"][0]["title"]).to eql "Esa bicicleta no existe, por favor intenta nuevamente."
+      expect(response["errors"][0]["title"]).to eql "Esa estación no existe, por favor intenta nuevamente."
 
-      edit_bicycle_appointment_request = {bicycle_number: 4}
+      edit_station_appointment_request = {station_number: 4}
       with_rack_test_driver do
-        page.driver.post edit_bicycle_number_appointment_path(appointment.id), edit_bicycle_appointment_request 
+        page.driver.post edit_station_number_appointment_path(appointment.id), edit_station_appointment_request 
       end
       response = JSON.parse(page.body)
       expect(page.status_code).to be 500
-      expect(response["errors"][0]["title"]).to eql "La bicicleta ya fue reservada, por favor intenta con otra."
+      expect(response["errors"][0]["title"]).to eql "La estación ya fue reservada, por favor intenta con otra."
 
-      edit_bicycle_appointment_request = {bicycle_number: 1}
+      edit_station_appointment_request = {station_number: 1}
       with_rack_test_driver do
-        page.driver.post edit_bicycle_number_appointment_path(appointment.id), edit_bicycle_appointment_request 
+        page.driver.post edit_station_number_appointment_path(appointment.id), edit_station_appointment_request 
       end
       response = JSON.parse(page.body)
       expect(page.status_code).to be 500
       expect(response["errors"][0]["title"]).to eql "Sólo se pueden cambiar los lugares con al menos una hora de anticipación."
 
       Timecop.travel(starting_datetime - 1.hours)
-      edit_bicycle_appointment_request = {bicycle_number: 1}
+      edit_station_appointment_request = {station_number: 1}
       with_rack_test_driver do
-        page.driver.post edit_bicycle_number_appointment_path(appointment.id), edit_bicycle_appointment_request 
+        page.driver.post edit_station_number_appointment_path(appointment.id), edit_station_appointment_request 
       end
       response = JSON.parse(page.body)
-      expect(response["appointment"]["bicycle_number"]).to eql 1
+      expect(response["appointment"]["station_number"]).to eql 1
       expect(response["appointment"]["schedule"]["id"]).to eql appointment.schedule.id
 
       expect(SendEmailJob).to have_been_enqueued.with("booking", global_id(user_with_classes_left), global_id(Appointment.last))
@@ -249,7 +249,7 @@ feature 'AppointmentsController' do
       access_token_1, uid_1, client_1, expiry_1, token_type_1 = get_headers
       set_headers access_token_1, uid_1, client_1, expiry_1, token_type_1
 
-      new_appointment_request = {schedule_id: schedule.id, bicycle_number: 4, description: "Mi primera clase"}      
+      new_appointment_request = {schedule_id: schedule.id, station_number: 4, description: "Mi primera clase"}      
       with_rack_test_driver do
         page.driver.post book_appointments_path, new_appointment_request
       end
@@ -294,7 +294,7 @@ feature 'AppointmentsController' do
       access_token_1, uid_1, client_1, expiry_1, token_type_1 = get_headers
       set_headers access_token_1, uid_1, client_1, expiry_1, token_type_1
 
-      new_appointment_request = {schedule_id: schedule.id, bicycle_number: 4, description: "Mi primera clase"}      
+      new_appointment_request = {schedule_id: schedule.id, station_number: 4, description: "Mi primera clase"}      
       with_rack_test_driver do
         page.driver.post book_appointments_path, new_appointment_request
       end
@@ -315,7 +315,7 @@ feature 'AppointmentsController' do
       appointment = Appointment.find(response["appointment"]["id"])
       expect(appointment.status).to eql "FINALIZED"
 
-      another_appointment_request = {schedule_id: schedule_02.id, bicycle_number: 4, description: "Mi segunda clase"}      
+      another_appointment_request = {schedule_id: schedule_02.id, station_number: 4, description: "Mi segunda clase"}      
       with_rack_test_driver do
         page.driver.post book_appointments_path, another_appointment_request
       end
@@ -333,7 +333,7 @@ feature 'AppointmentsController' do
       expect(Email.count).to eql 1
       
       #Can't book past schedules
-      new_appointment_request = {schedule_id: schedule.id, bicycle_number: 2, description: "Mi otra clase"}      
+      new_appointment_request = {schedule_id: schedule.id, station_number: 2, description: "Mi otra clase"}      
       with_rack_test_driver do
         page.driver.post book_appointments_path, new_appointment_request
       end
@@ -342,13 +342,13 @@ feature 'AppointmentsController' do
       
     end
 
-    it 'should create successfully an appointment and error on creating one with the same bicycle or with another user_id' do
+    it 'should create successfully an appointment and error on creating one with the same station or with another user_id' do
       
       page = login_with_service user = { email: user_with_classes_left[:email], password: "12345678" }
       access_token_1, uid_1, client_1, expiry_1, token_type_1 = get_headers
       set_headers access_token_1, uid_1, client_1, expiry_1, token_type_1
 
-      new_appointment_request = {schedule_id: schedule.id, bicycle_number: 4, description: "Mi primera clase"}      
+      new_appointment_request = {schedule_id: schedule.id, station_number: 4, description: "Mi primera clase"}      
       with_rack_test_driver do
         page.driver.post book_appointments_path, new_appointment_request
       end
@@ -361,12 +361,12 @@ feature 'AppointmentsController' do
       
       perform_enqueued_jobs { SendEmailJob.perform_later("booking", user_with_classes_left, Appointment.last) } 
 
-      new_appointment_request = {schedule_id: schedule.id, bicycle_number: 4, description: "Mi otra clase"}      
+      new_appointment_request = {schedule_id: schedule.id, station_number: 4, description: "Mi otra clase"}      
       with_rack_test_driver do
         page.driver.post book_appointments_path, new_appointment_request
       end
       response = JSON.parse(page.body)
-      expect(response["errors"][0]["title"]).to eql "La bicicleta ya fue reservada, por favor intenta con otra."
+      expect(response["errors"][0]["title"]).to eql "La estación ya fue reservada, por favor intenta con otra."
 
     end
 
@@ -380,7 +380,7 @@ feature 'AppointmentsController' do
 
       #USER WITH NO CLASSES LEFT
       page = login_with_service user = { email: user_with_no_classes_left[:email], password: "12345678" }
-      new_appointment_request_no_classes = {schedule_id: schedule.id, bicycle_number: 4, description: "Mi primera clase"}
+      new_appointment_request_no_classes = {schedule_id: schedule.id, station_number: 4, description: "Mi primera clase"}
       access_token_1, uid_1, client_1, expiry_1, token_type_1 = get_headers
       set_headers access_token_1, uid_1, client_1, expiry_1, token_type_1
       with_rack_test_driver do
@@ -394,7 +394,7 @@ feature 'AppointmentsController' do
       page = login_with_service user = { email: user_with_nil_classes_left[:email], password: "12345678" }
       access_token_1, uid_1, client_1, expiry_1, token_type_1 = get_headers
       set_headers access_token_1, uid_1, client_1, expiry_1, token_type_1
-      new_appointment_request_nil_classes = {schedule_id: schedule.id, bicycle_number: 4, description: "Mi primera clase"}
+      new_appointment_request_nil_classes = {schedule_id: schedule.id, station_number: 4, description: "Mi primera clase"}
       with_rack_test_driver do
         page.driver.post book_appointments_path, new_appointment_request_nil_classes
       end
@@ -407,13 +407,13 @@ feature 'AppointmentsController' do
       access_token_1, uid_1, client_1, expiry_1, token_type_1 = get_headers
       set_headers access_token_1, uid_1, client_1, expiry_1, token_type_1
 
-      new_appointment_request = {schedule_id: schedule.id, bicycle_number: 5, description: "Mi primera clase"}      
+      new_appointment_request = {schedule_id: schedule.id, station_number: 5, description: "Mi primera clase"}      
       with_rack_test_driver do
         page.driver.post book_appointments_path, new_appointment_request
       end
       
       response = JSON.parse(page.body)
-      expect(response["errors"][0]["title"]).to eql "Esa bicicleta no existe, por favor intenta nuevamente."
+      expect(response["errors"][0]["title"]).to eql "Esa estación no existe, por favor intenta nuevamente."
 
     end
     

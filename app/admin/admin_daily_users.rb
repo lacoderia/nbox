@@ -8,7 +8,7 @@ ActiveAdmin.register Appointment, :as => "Clientes_del_dia" do
   
   filter :user_last_name, :as => :string, :label => "Apellido de cliente"
 
-  config.sort_order = 'start_asc, bicycle_number_asc'
+  config.sort_order = 'start_asc, station_number_asc'
 
   before_filter only: :index do
     # when arriving through top navigation
@@ -31,7 +31,7 @@ ActiveAdmin.register Appointment, :as => "Clientes_del_dia" do
 
   index :title => "Clientes del dia" do
     column "Horario", :start
-    column "Bicicleta", :bicycle_number
+    column "Estación", :station_number
     column 'Nombre' do |appointment|
       "#{appointment.user.first_name} #{appointment.user.last_name}"
     end
@@ -44,8 +44,8 @@ ActiveAdmin.register Appointment, :as => "Clientes_del_dia" do
     column "Horario" do |appointment|
       appointment.start
     end
-    column "Bicicleta" do |appointment|
-      appointment.bicycle_number
+    column "Estación" do |appointment|
+      appointment.station_number
     end
     column 'Nombre' do |appointment|
       "#{appointment.user.first_name} #{appointment.user.last_name}"

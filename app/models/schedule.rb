@@ -11,12 +11,12 @@ class Schedule < ActiveRecord::Base
   end
 
   def bookings
-    booked_bicycles = []
-    active_bicycles = Bicycle.to_bicycle_array(self.room.distribution.active_seats)
+    booked_stations = []
+    active_stations  = Station.to_station_array(self.room.distribution.active_seats)
     self.appointments.booked.each do |appointment|
-      booked_bicycles << active_bicycles.find{|bicycle| bicycle.number == appointment.bicycle_number}
+      booked_stations << active_stations.find{|station| station.number == appointment.station_number}
     end
-    booked_bicycles.sort_by{|bicycle| bicycle.number}
+    booked_stations.sort_by{|station| station.number}
   end
   
   def available_seats
@@ -29,9 +29,9 @@ class Schedule < ActiveRecord::Base
     eval(self.room.distribution.inactive_seats)
   end
 
-  def bicycle_exists? bicycle_number
-    active_bicycles = Bicycle.to_bicycle_array(self.room.distribution.active_seats)
-    if active_bicycles.find{|bicycle| bicycle.number == bicycle_number}
+  def station_exists? station_number
+    active_stations = Station.to_station_array(self.room.distribution.active_seats)
+    if active_stations.find{|station| station.number == station_number}
       return true
     else
       return false
