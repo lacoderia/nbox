@@ -7,7 +7,6 @@ gem 'devise_token_auth'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'activeadmin', github: 'activeadmin'
 gem 'delayed_job_active_record'
-gem 'active_admin_datetimepicker'
 gem 'conekta'
 gem 'active_model_serializers'
 
