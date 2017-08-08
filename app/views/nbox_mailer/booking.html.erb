@@ -166,7 +166,7 @@
 	*/
 		#templateHeader{
 			/*@editable*/background-color:#000000;
-			/*@editable*/background-image:url(<%= ENV['HOST'] %>/booking/background.png);
+			/*@editable*/background-image:url(<%= "http://" + ENV['HOST'] %>/booking/background.png);
 			/*@editable*/background-repeat:no-repeat;
 			/*@editable*/background-position:center;
 			/*@editable*/background-size:cover;
@@ -510,7 +510,7 @@
                             <td class="mcnImageContent" valign="top" style="padding-right: 9px; padding-left: 9px; padding-top: 0; padding-bottom: 0;">
                                 
                                     
-                                        <img align="left" alt="" src="<%= ENV['HOST'] %>/booking/logo.png" width="200" style="max-width:200px; padding-bottom: 0; display: inline !important; vertical-align: bottom;" class="mcnImage">
+                                        <img align="left" alt="" src="<%= "http://" + ENV['HOST'] %>/booking/logo.png" width="200" style="max-width:200px; padding-bottom: 0; display: inline !important; vertical-align: bottom;" class="mcnImage">
                                     
                                 
                             </td>
@@ -736,7 +736,7 @@ Tu entrenamiento comenzará&nbsp;en la estación <%= @appointment.station_number
                         
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-left:18px; padding-bottom:9px; padding-right:18px;">
                         
-                            <h4 class="null" style="text-align: left;"><a href="http://n-box.com.mx/mi-cuenta/" target="_blank"><span class="mc-toc-title"><img align="left" data-file-id="115075" height="48" src="<%= ENV['HOST'] %>/booking/decal.png" style="border: 0px  ; width: 48px; height: 48px; margin: 0px 15px;" width="48">Ver<br>
+                            <h4 class="null" style="text-align: left;"><a href="http://n-box.com.mx/mi-cuenta/" target="_blank"><span class="mc-toc-title"><img align="left" data-file-id="115075" height="48" src="<%= "http://" + ENV['HOST'] %>/booking/decal.png" style="border: 0px  ; width: 48px; height: 48px; margin: 0px 15px;" width="48">Ver<br>
 mis reservaciones</span></a></h4>
 
                         </td>
@@ -754,7 +754,7 @@ mis reservaciones</span></a></h4>
                         
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-left:18px; padding-bottom:9px; padding-right:18px;">
                         
-                            <h4 class="null"><span class="mc-toc-title"><img align="left" data-file-id="115075" height="48" src="<%= ENV['HOST'] %>/booking/decal.png" style="border: 0px  ; width: 48px; height: 48px; margin: 0px 15px;" width="48"><a href="http://n-box.com.mx/reserva/" target="_blank">Agendar</a></span><br>
+                            <h4 class="null"><span class="mc-toc-title"><img align="left" data-file-id="115075" height="48" src="<%= "http://" + ENV['HOST'] %>/booking/decal.png" style="border: 0px  ; width: 48px; height: 48px; margin: 0px 15px;" width="48"><a href="http://n-box.com.mx/reserva/" target="_blank">Agendar</a></span><br>
 <a href="http://n-box.com.mx/reserva/" target="_blank">otra reservación</a></h4>
 
                         </td>

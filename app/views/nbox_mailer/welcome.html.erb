@@ -225,7 +225,7 @@
 	*/
 		#templateHeader{
 			/*@editable*/background-color:#ffffff;
-			/*@editable*/background-image:url(<%= ENV['HOST'] %>/welcome/background.jpg);
+			/*@editable*/background-image:url(<%= "http://" + ENV['HOST'] %>/welcome/background.jpg);
 			/*@editable*/background-repeat:no-repeat;
 			/*@editable*/background-position:center;
 			/*@editable*/background-size:cover;
@@ -595,7 +595,7 @@
                             <td class="mcnImageContent" valign="top" style="padding-right: 9px; padding-left: 9px; padding-top: 0; padding-bottom: 0;">
                                 
                                     
-                                        <img align="left" alt="" src="<%= ENV['HOST'] %>/welcome/logo.png" width="119.5" style="max-width:239px; padding-bottom: 0; display: inline !important; vertical-align: bottom;" class="mcnImage">
+                                        <img align="left" alt="" src="<%= "http://" + ENV['HOST'] %>/welcome/logo.png" width="119.5" style="max-width:239px; padding-bottom: 0; display: inline !important; vertical-align: bottom;" class="mcnImage">
                                     
                                 
                             </td>
