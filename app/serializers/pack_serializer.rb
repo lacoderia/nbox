@@ -1,3 +1,3 @@
 class PackSerializer < ActiveModel::Serializer
-  attributes :description, :classes, :price, :special_price, :active
+  attributes :id, :description, :classes, :price, :special_price, :active, :expiration
 end
