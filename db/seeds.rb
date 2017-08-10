@@ -75,23 +75,23 @@ pack_5 = Pack.create(description: "50 clases", classes: 50, price: 5000.00, expi
 venue = Venue.create(name: "Gimnasio SLP", description: "Gimnasio original")
 
 #Stations
-station1 = Station.new(position:6, number:1)
-station2 = Station.new(position:32, number:2)
-station3 = Station.new(position:36, number:3)
-station4 = Station.new(position:39, number:4)
-station5 = Station.new(position:49, number:5)
-station6 = Station.new(position:79, number:6)
-station7 = Station.new(position:81, number:7)
-station8 = Station.new(position:99, number:8)
-station9 = Station.new(position:111, number:9)
-station10 = Station.new(position:119, number:10)
-station11 = Station.new(position:139, number:11)
-station12 = Station.new(position:141, number:12)
-station13 = Station.new(position:153, number:13)
-station14 = Station.new(position:163, number:14)
+station1 = Station.new(position:5, number:1)
+station2 = Station.new(position:26, number:2)
+station3 = Station.new(position:29, number:3)
+station4 = Station.new(position:31, number:4)
+station5 = Station.new(position:39, number:5)
+station6 = Station.new(position:63, number:6)
+station7 = Station.new(position:65, number:7)
+station8 = Station.new(position:79, number:8)
+station9 = Station.new(position:89, number:9)
+station10 = Station.new(position:95, number:10)
+station11 = Station.new(position:111, number:11)
+station12 = Station.new(position:113, number:12)
+station13 = Station.new(position:123, number:13)
+station14 = Station.new(position:131, number:14)
 
 #Distributions
-distribution = Distribution.create(height: 18, width: 10, description: "distribucion nbox", inactive_seats: "", active_seats: Station.to_string_array([station1,station2,station3,station4,station5,station6,station7,station8,station9,station10,station11,station12,station13,station14]), total_seats: 14)
+distribution = Distribution.create(height: 18, width: 8, description: "distribucion nbox", inactive_seats: "", active_seats: Station.to_string_array([station1,station2,station3,station4,station5,station6,station7,station8,station9,station10,station11,station12,station13,station14]), total_seats: 14)
 
 #Room
 room = Room.create(venue: venue, distribution: distribution, description: "Salón original")
