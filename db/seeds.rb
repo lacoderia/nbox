@@ -75,7 +75,7 @@ pack_5 = Pack.create(description: "50 clases", classes: 50, price: 5000.00, expi
 venue = Venue.create(name: "Gimnasio SLP", description: "Gimnasio original")
 
 #Stations
-station1 = Station.new(position:6, number:1, description: "abs / bola medicinal")
+station1 = Station.new(position:6, number:1, description: "abs, bola medicinal")
 station2 = Station.new(position:21, number:2, description: "ring")
 station3 = Station.new(position:24, number:3, description: "pera sencilla")
 station4 = Station.new(position:26, number:4, description: "cojín cuadrado")
@@ -86,7 +86,7 @@ station8 = Station.new(position:71, number:8, description: "costal de bola")
 station9 = Station.new(position:74, number:9, description: "costal mixto horizontal")
 station10 = Station.new(position:89, number:10, description: "pera doble")
 station11 = Station.new(position:101, number:11, description: "costal vertical")
-station12 = Station.new(position:107, number:12, description: "barras / discos / remadora")
+station12 = Station.new(position:107, number:12, description: "barras, discos, remadora")
 station13 = Station.new(position:112, number:13, description: "TRX")
 station14 = Station.new(position:121, number:14, description: "TRX")
 
