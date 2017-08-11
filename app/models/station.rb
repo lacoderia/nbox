@@ -8,7 +8,7 @@ class Station
 
     result = "["
     station_array.each do |station|
-      result += "{position:#{station.position}, number:#{station.number}, description:'#{station.description}'}"
+      result += "{position:#{station.position}, number:#{station.number}, description:'#{station.description}'},"
     end
     result.chop!
     result += "]"
