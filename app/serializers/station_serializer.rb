@@ -1,3 +1,3 @@
 class StationSerializer < ActiveModel::Serializer
-  attributes :number, :position
+  attributes :number, :position, :description
 end
