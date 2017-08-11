@@ -9,6 +9,7 @@ feature 'DistributionsController' do
       visit "#{by_room_id_distributions_path}?room_id=#{room.id}"
       response = JSON.parse(page.body)
       expect(response["distribution"]["description"]).to eql "controller test"
+      expect(response["distribution"]["active_seats"][0]["description"]).to eql "abs"
     end
 
     it 'should error when room id is incorrect' do

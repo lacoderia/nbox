@@ -1,14 +1,14 @@
 class Station 
   include ActiveModel::Model
 
-  attr_accessor :position, :number
+  attr_accessor :position, :number, :description
 
   #USED in seeds.rb
   def self.to_string_array station_array
 
     result = "["
     station_array.each do |station|
-      result += "{position:#{station.position}, number:#{station.number}},"
+      result += "{position:#{station.position}, number:#{station.number}}, description:#{station.description}"
     end
     result.chop!
     result += "]"
