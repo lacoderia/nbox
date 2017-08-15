@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 #Users
-user = User.create(first_name: "Arnulfo", last_name: "Quimare", email: "usuario_prueba@email.com", classes_left: 2, last_class_purchased: Time.now, picture: "url", uid: "XID3423423", password: "cantbeblank", phone: "55456792")
+user = User.create(first_name: "Arnulfo", last_name: "Quimare", email: "usuario_prueba@email.com", classes_left: 2, picture: "url", uid: "XID3423423", password: "cantbeblank", phone: "55456792")
 
 #Roles
 role_instructor = Role.create(name: 'instructor')
@@ -88,10 +88,10 @@ station10 = Station.new(position:89, number:10, description: 'pera doble')
 station11 = Station.new(position:101, number:11, description: 'costal vertical')
 station12 = Station.new(position:107, number:12, description: 'barras / discos / remadora')
 station13 = Station.new(position:112, number:13, description: 'TRX')
-station14 = Station.new(position:121, number:14, description: 'TRX')
+station14 = Station.new(position:113, number:14, description: 'TRX')
 
 #Distributions
-distribution = Distribution.create(height: 15, width: 9, description: "distribucion nbox", inactive_seats: "", active_seats: Station.to_string_array([station1,station2,station3,station4,station5,station6,station7,station8,station9,station10,station11,station12,station13,station14]), total_seats: 14)
+distribution = Distribution.create(height: 14, width: 9, description: "distribucion nbox", inactive_seats: "", active_seats: Station.to_string_array([station1,station2,station3,station4,station5,station6,station7,station8,station9,station10,station11,station12,station13,station14]), total_seats: 14)
 
 #Room
 room = Room.create(venue: venue, distribution: distribution, description: "Salón original")
