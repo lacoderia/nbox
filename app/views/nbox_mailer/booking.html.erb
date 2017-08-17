@@ -590,7 +590,7 @@
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
                         
                             <h4 class="null"><%= @appointment.schedule.instructor.first_name %> te espera el <strong><%= @appointment.start.strftime("%d/%m/%Y %I:%M%p") %></strong><br>
-Tu entrenamiento comenzará&nbsp;en la estación <%= @appointment.station_number %>.</h4>
+                              Tu entrenamiento de <%= @appointment.schedule.schedule_type.description %> comenzará&nbsp;en la estación <%= @appointment.station_number %>.</h4>
 
                         </td>
                     </tr>
