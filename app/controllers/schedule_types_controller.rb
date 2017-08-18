@@ -1,6 +1,4 @@
 class ScheduleTypesController < ApiController
-
-  before_action :authenticate_user!
   
   def index
     begin
