@@ -13,6 +13,8 @@ ActiveAdmin.register User, :as => "Resumen_clases_por_usuario" do
   scope("#{Date::MONTHNAMES[(Time.zone.now.beginning_of_month - 1.month).month]}"){|scope| scope.where("appointments.start >= ? and appointments.start <= ?", Time.zone.now.beginning_of_month - 1.month, Time.zone.now.end_of_month - 1.month)}
   
   scope("#{Date::MONTHNAMES[Time.zone.now.beginning_of_month.month]}"){|scope| scope.where("appointments.start >= ? and appointments.start <= ?", Time.zone.now.beginning_of_month, Time.zone.now.end_of_month)}
+  
+  scope("All"){|scope| scope}
 
   controller do
     def scoped_collection
