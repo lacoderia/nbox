@@ -10,7 +10,7 @@ feature 'DistributionsController' do
       response = JSON.parse(page.body)
       expect(response["distribution"]["description"]).to eql "controller test"
       expect(response["distribution"]["active_seats"][0]["description"]).to eql "abs"
-      expect(response["distribution"]["painted_seat_positions"]).to eql "[1,2]"
+      expect(response["distribution"]["painted_seat_positions"]).to eql "[{position: 1, style: 'left'},{position: 2, style: 'right'}]"
     end
 
     it 'should error when room id is incorrect' do
