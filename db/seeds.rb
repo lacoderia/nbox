@@ -91,7 +91,7 @@ station13 = Station.new(position:112, number:13, description: 'TRX')
 station14 = Station.new(position:113, number:14, description: 'TRX')
 
 #Distributions
-distribution = Distribution.create(height: 14, width: 9, description: "distribucion nbox", inactive_seats: "", active_seats: Station.to_string_array([station1,station2,station3,station4,station5,station6,station7,station8,station9,station10,station11,station12,station13,station14]), total_seats: 14)
+distribution = Distribution.create(height: 14, width: 9, description: "distribucion nbox", inactive_seats: "", active_seats: Station.to_string_array([station1,station2,station3,station4,station5,station6,station7,station8,station9,station10,station11,station12,station13,station14]), total_seats: 14, painted_seat_positions: "[11,12,13,20,21,22,29,30,31]")
 
 #Room
 room = Room.create(venue: venue, distribution: distribution, description: "Salón original")
