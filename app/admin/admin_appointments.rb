@@ -6,7 +6,6 @@ ActiveAdmin.register User, :as => "Resumen_clases_por_usuario" do
   filter :last_name, :label => "Apellido"
 
   scope("#{Date::MONTHNAMES[(Time.zone.now.beginning_of_month - 3.month).month]}"){|scope| scope.where("appointments.start >= ? and appointments.start <= ?", Time.zone.now.beginning_of_month - 3.month, Time.zone.now.end_of_month - 3.month)}
-  scope("Hace 3 meses"){|scope| scope.where("appointments.start >= ? and appointments.start <= ?", Time.zone.now.beginning_of_month - 3.month, Time.zone.now.end_of_month - 3.month)}
   
   scope("#{Date::MONTHNAMES[(Time.zone.now.beginning_of_month - 2.month).month]}"){|scope| scope.where("appointments.start >= ? and appointments.start <= ?", Time.zone.now.beginning_of_month - 2.month, Time.zone.now.end_of_month - 2.month)}
   
