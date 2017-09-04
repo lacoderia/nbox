@@ -20,7 +20,7 @@ class AppointmentsController < ApiController
 
   def cancel
     begin
-      @appointment.cancel_with_time_check
+      @appointment.cancel_with_time_check(current_user)
       render json: @appointment
     rescue Exception => e
       appointment = Appointment.new
