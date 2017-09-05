@@ -1,9 +1,9 @@
 feature 'SchedulesController' do
       
-  let!(:starting_datetime) { Time.zone.parse('01 Jan 2016 00:00:00') }  
+  let!(:starting_datetime) { Time.zone.parse('01 Jan 2016 01:00:00') }  
   
   let!(:schedule_current_week_01) { create(:schedule, datetime: starting_datetime, description: "semana uno" ) }
-  let!(:schedule_current_week_02) { create(:schedule, datetime: starting_datetime + 7.days + 23.hours + 59.minutes) }
+  let!(:schedule_current_week_02) { create(:schedule, datetime: starting_datetime + 7.days + 22.hours + 59.minutes) }
   let!(:schedule_past_week) { create(:schedule, datetime: starting_datetime - 1.day) }
   let!(:schedule_next_week) { create(:schedule, datetime: starting_datetime + 8.days, free: true) }
 
@@ -20,6 +20,7 @@ feature 'SchedulesController' do
 
         visit weekly_scope_schedules_path
         response = JSON.parse(page.body)
+        expect(response['start_day']).to eql starting_datetime.beginning_of_day.strftime("%FT%T.%L%:z")
         expect(response['schedules'].count).to eql 2
         expect(response['schedules'][0]["schedule_type"]).not_to be nil
         expect(response['schedules'][0]['id']).to eql schedule_current_week_01.id
@@ -30,7 +31,7 @@ feature 'SchedulesController' do
         expect(response['schedules'][1]['available_seats']).to eql 4
 
         # Entrando la siguiente semana 
-        one_week_after = starting_datetime + 8.days
+        one_week_after = starting_datetime + 7.days + 23.hours + 59.minutes
         Timecop.travel(one_week_after)
 
         visit weekly_scope_schedules_path
