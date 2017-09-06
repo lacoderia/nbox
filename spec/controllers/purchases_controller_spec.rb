@@ -337,7 +337,7 @@ feature 'PurchasesController' do
       end
       
       response = JSON.parse(page.body)
-      expect(response["errors"][0]["title"]).to eql "Falta el teléfono en el campo 'details."
+      expect(response["errors"][0]["title"]).to eql "Falta el teléfono en el campo \"details\"."
 
       #No funds
       new_purchase_request = {pack_id: pack.id, price: pack.price, uid: card_no_funds.uid}      

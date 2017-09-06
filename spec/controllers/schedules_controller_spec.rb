@@ -7,6 +7,9 @@ feature 'SchedulesController' do
   let!(:schedule_past_week) { create(:schedule, datetime: starting_datetime - 1.day) }
   let!(:schedule_next_week) { create(:schedule, datetime: starting_datetime + 8.days, free: true) }
 
+  let!(:schedule_next_2_months) { create(:schedule, datetime: starting_datetime + 1.month) }
+  let!(:schedule_next_2_months_and_a_week) { create(:schedule, datetime: starting_datetime + 1.month + 8.days)}
+
   let!(:appointment_01) { create(:appointment, schedule: schedule_current_week_01, station_number: 4) }
   let!(:appointment_02) { create(:appointment, schedule: schedule_current_week_01, station_number: 1) }
 
@@ -26,11 +29,11 @@ feature 'SchedulesController' do
         expect(response['schedules'][0]['id']).to eql schedule_current_week_01.id
         expect(response['schedules'][0]['description']).to eql "semana uno"
         expect(response['schedules'][1]['id']).to eql schedule_current_week_02.id
-        expect(Schedule.count).to eql 4
+        expect(Schedule.count).to eql 6
         expect(response['schedules'][0]['available_seats']).to eql 2
         expect(response['schedules'][1]['available_seats']).to eql 4
 
-        # Entrando la siguiente semana 
+        # Next week
         one_week_after = starting_datetime + 7.days + 23.hours + 59.minutes
         Timecop.travel(one_week_after)
 
@@ -39,6 +42,18 @@ feature 'SchedulesController' do
         expect(response['schedules'].count).to eql 1
         expect(response['schedules'][0]['id']).to eql schedule_next_week.id
         expect(response['schedules'][0]['free']).to eql true 
+    end
+
+    it 'should get future week schedules' do
+      # Next month 
+      one_month_after = starting_datetime + 1.month
+      Timecop.travel(one_month_after)
+
+      visit weekly_scope_schedules_path
+      response = JSON.parse(page.body)
+      expect(response['schedules'].count).to eql 1
+      expect(response['schedules'][0]['id']).to eql schedule_next_2_months.id
+
     end
 
     it 'should give the booked seats for a schedule' do
