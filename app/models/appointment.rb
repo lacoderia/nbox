@@ -91,11 +91,18 @@ class Appointment < ActiveRecord::Base
 
     if schedule.free
       if (not schedule.bookings.find{|station| station.number == station_number})
+
+        free_appointments = user.appointments.where("schedule_id = ?", schedule.id)
+        future_free_appointments = user.appointments.joins(:schedule).where("schedules.datetime between ? and ? and schedules.free = ?", Config.free_classes_start_date, Config.free_classes_end_date, true)
         
-        if user.appointments.where("schedule_id = ?", schedule.id).empty?
+        if free_appointments.empty? and future_free_appointments.empty?
           schedule.appointments << appointment = Appointment.create!(user: user, schedule: schedule, station_number: station_number, status: "BOOKED", start: schedule.datetime, description: description)
         else
-          raise "Sólo puedes reservar un lugar en clases gratis."
+          if not free_appointments.empty?
+            raise "Sólo puedes reservar un lugar en clases gratis."
+          else
+            raise "Sólo puedes reservar un lugar en cualquier clase gratis de apertura."
+          end
         end
 
       else

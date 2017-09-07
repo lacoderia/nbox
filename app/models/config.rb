@@ -8,6 +8,10 @@ class Config < ActiveRecord::Base
   DEFAULT_FIVE_TO_NINE = 150.00
   DEFAULT_TEN_TO_FOURTEEN = 250.00
   DEFAULT_FIFTEEN_TO_NINETEEN = 350.00
+      
+  #Default free classes date  
+  DEFAULT_FREE_CLASSES_START_DATE = "2017-01-01T00:00:00-05:00"
+  DEFAULT_FREE_CLASSES_END_DATE = "2017-01-01T00:00:01-05:00"
 
   def self.coupon_discount
     coupon_discount = Config.find_by_key("coupon_discount")
@@ -24,6 +28,24 @@ class Config < ActiveRecord::Base
       return referral_credit.value.to_f
     else
       return DEFAULT_REFERRAL_CREDIT
+    end
+  end
+
+  def self.free_classes_start_date
+    free_classes_start_date = Config.find_by_key("free_classes_start_date")
+    if free_classes_start_date
+      return free_classes_start_date.value
+    else
+      return DEFAULT_FREE_CLASSES_START_DATE
+    end
+  end
+
+  def self.free_classes_end_date
+    free_classes_end_date = Config.find_by_key("free_classes_end_date")
+    if free_classes_end_date
+      return free_classes_end_date.value
+    else
+      return DEFAULT_FREE_CLASSES_END_DATE
     end
   end
 
