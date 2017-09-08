@@ -11,7 +11,11 @@ class ScheduleSerializer < ActiveModel::Serializer
   end
 
   def available_seats
-    object.available_seats
+    if object.instructor
+      return object.available_seats
+    else
+      return 0
+    end
   end
   
   def instructor
@@ -20,7 +24,7 @@ class ScheduleSerializer < ActiveModel::Serializer
       instructor_obj[:id] = object.instructor.id
       instructor_obj[:first_name] = object.instructor.first_name
       instructor_obj[:last_name] = object.instructor.last_name
-      instructor_obj
+      return instructor_obj
     end
   end
 

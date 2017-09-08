@@ -51,7 +51,7 @@ ActiveAdmin.register Schedule, :as => "Clases" do
       schedule.datetime
     end
     column "Instructor" do |schedule|
-      "#{schedule.instructor.first_name} #{schedule.instructor.last_name}"
+      "#{schedule.instructor.first_name} #{schedule.instructor.last_name}" if schedule.instructor
     end
     column "Descripcion" do |schedule| 
       schedule.description
