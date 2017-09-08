@@ -7,7 +7,7 @@ class InstructorSerializer < ActiveModel::Serializer
     start_day = Time.zone.now
     end_day = start_day + 7.days
     schedules_with_start_date = Schedule.weekly_scope_with_parameters(object.schedules, start_day, end_day)
-    WeeklyScheduleSerializer.serialize(schedules_with_start_date)
+    WeeklyScheduleSerializer.serialize(schedules_with_start_date, false)
   end
   
   def email

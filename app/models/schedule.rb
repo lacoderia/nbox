@@ -41,7 +41,7 @@ class Schedule < ActiveRecord::Base
 
     end
 
-    return {schedules: result_schedules, start_day: result_schedules[0].datetime}
+    return {schedules: result_schedules, start_day: result_schedules.empty? ? start_day : result_schedules[0].datetime}
 
   end
 
