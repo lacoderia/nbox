@@ -48,14 +48,15 @@ feature 'AppointmentsController' do
       access_token_1, uid_1, client_1, expiry_1, token_type_1 = get_headers
       set_headers access_token_1, uid_1, client_1, expiry_1, token_type_1
 
-      #Weekly scope
+      #All future appointments
       visit weekly_scope_for_user_appointments_path
       response = JSON.parse(page.body)
-      expect(response["appointments"].size).to eql 3
+      expect(response["appointments"].size).to eql 4
       expect(response["appointments"][0]["id"]).to eql future_app_01.id
       expect(response["appointments"][0]["schedule"]["description"]).to eql "futuro uno"
       expect(response["appointments"][1]["id"]).to eql future_app_02.id
       expect(response["appointments"][2]["id"]).to eql future_app_03.id
+      expect(response["appointments"][3]["id"]).to eql future_app_04.id
       
       #Historic appointments
       visit historic_for_user_appointments_path
