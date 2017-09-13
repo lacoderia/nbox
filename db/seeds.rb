@@ -87,8 +87,8 @@ station9 = Station.new(position:71, number:6, description: 'Pera doble')
 station10 = Station.new(position:74, number:11, description: 'Costal vertical')
 station11 = Station.new(position:89, number:7, description: 'Costal horizontal')
 station12 = Station.new(position:101, number:10, description: 'Costal vertical')
-station13 = Station.new(position:112, number:8, description: 'TRX')
-station14 = Station.new(position:113, number:9, description: 'TRX')
+station13 = Station.new(position:112, number:9, description: 'TRX')
+station14 = Station.new(position:113, number:8, description: 'TRX')
 
 ring_string = "[{position: 11, style: 'top left'},{position: 12, style: 'top'},{position: 13, style: 'top right'},{position: 20, style: 'left'},{position: 21, style: ''},{position: 22, style: 'right'},{position: 29, style: 'bottom left'},{position: 30, style: 'bottom'}, {position: 31, style: 'bottom right'}]"
 
