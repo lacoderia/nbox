@@ -89,34 +89,42 @@ class Appointment < ActiveRecord::Base
       raise "Esa estación no existe, por favor intenta nuevamente."
     end
 
-    if schedule.free
-      if (not schedule.bookings.find{|station| station.number == station_number})
-
-        free_appointments = user.appointments.where("schedule_id = ?", schedule.id)
-        future_free_appointments = user.appointments.joins(:schedule).where("schedules.datetime between ? and ? and schedules.free = ?", Config.free_classes_start_date, Config.free_classes_end_date, true)
-        
-        if free_appointments.empty? and future_free_appointments.empty?
+    if (not schedule.bookings.find{|station| station.number == station_number})
+      if schedule.opening
+        future_free_appointments = user.appointments.joins(:schedule).where("schedules.datetime between ? and ? and schedules.opening = ?", Config.free_classes_start_date, Config.free_classes_end_date, true)
+        if future_free_appointments.empty?
           schedule.appointments << appointment = Appointment.create!(user: user, schedule: schedule, station_number: station_number, status: "BOOKED", start: schedule.datetime, description: description)
         else
-          if not free_appointments.empty?
-            raise "Sólo puedes reservar un lugar en clases gratis."
-          else
-            raise "Sólo puedes reservar un lugar en cualquier clase gratis de apertura."
+          #The second opening class will be deducted
+          if (user.classes_left and user.classes_left >= 1) and (not schedule.bookings.find{|station| station.number == station_number})
+            schedule.appointments << appointment = Appointment.create!(user: user, schedule: schedule, station_number: station_number, status: "BOOKED", start: schedule.datetime, description: description)      
+            user.update_attribute(:classes_left, user.classes_left - 1)
+          elsif not user.classes_left or user.classes_left == 0 
+            raise "Ya no tienes clases disponibles, adquiere más para continuar."
+          elsif schedule.bookings.find{|station| station.number == station_number}
+            raise "La estación ya fue reservada, por favor intenta con otra."
           end
         end
 
+      elsif schedule.free
+        free_appointments = user.appointments.where("schedule_id = ?", schedule.id)
+        if free_appointments.empty?
+          schedule.appointments << appointment = Appointment.create!(user: user, schedule: schedule, station_number: station_number, status: "BOOKED", start: schedule.datetime, description: description)
+        else
+          raise "Sólo puedes reservar un lugar en clases gratis."
+        end
       else
-        raise "La estación ya fue reservada, por favor intenta con otra."
+        if (user.classes_left and user.classes_left >= 1) and (not schedule.bookings.find{|station| station.number == station_number})
+          schedule.appointments << appointment = Appointment.create!(user: user, schedule: schedule, station_number: station_number, status: "BOOKED", start: schedule.datetime, description: description)      
+          user.update_attribute(:classes_left, user.classes_left - 1)
+        elsif not user.classes_left or user.classes_left == 0 
+          raise "Ya no tienes clases disponibles, adquiere más para continuar."
+        elsif schedule.bookings.find{|station| station.number == station_number}
+          raise "La estación ya fue reservada, por favor intenta con otra."
+        end
       end
     else
-      if (user.classes_left and user.classes_left >= 1) and (not schedule.bookings.find{|station| station.number == station_number})
-        schedule.appointments << appointment = Appointment.create!(user: user, schedule: schedule, station_number: station_number, status: "BOOKED", start: schedule.datetime, description: description)      
-        user.update_attribute(:classes_left, user.classes_left - 1)
-      elsif not user.classes_left or user.classes_left == 0 
-        raise "Ya no tienes clases disponibles, adquiere más para continuar."
-      elsif schedule.bookings.find{|station| station.number == station_number}
-        raise "La estación ya fue reservada, por favor intenta con otra."
-      end
+      raise "La estación ya fue reservada, por favor intenta con otra."
     end
     
     appointment

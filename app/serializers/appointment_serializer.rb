@@ -14,6 +14,7 @@ class AppointmentSerializer < ActiveModel::Serializer
     sch_obj[:description] = object.schedule.description
     sch_obj[:instructor] = object.schedule.instructor
     sch_obj[:free] = object.schedule.free
+    sch_obj[:opening] = object.schedule.opening
     sch_obj[:schedule_type] = object.schedule.schedule_type
     sch_obj
   end

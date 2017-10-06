@@ -2,11 +2,12 @@ ActiveAdmin.register Schedule, :as => "Clases" do
 
   actions :all
 
-  permit_params :datetime, :room_id, :instructor_id, :description, :free, :schedule_type_id
+  permit_params :datetime, :room_id, :instructor_id, :description, :free, :opening, :schedule_type_id
 
   filter :datetime, :label => "Horario"
   filter :description, :label => "Descripción"
   filter :free, :label => "Gratis"
+  filter :opening, :label => "Apertura"
   filter :schedule_type_description, :label => "Tipo de clase", :as => :string
   filter :instructor_first_name, :label => "Nombre de instructor", :as => :string
   filter :instructor_active, :label => "¿Instructor activo?", :as => :boolean
@@ -32,6 +33,7 @@ ActiveAdmin.register Schedule, :as => "Clases" do
       Config.payment_based_on_attendees schedule.appointments.finalized.count
     end
     column "Gratis", :free
+    column "Apertura", :opening
     column "Tipo de Clase" do |schedule|
       schedule.schedule_type.description if schedule.schedule_type
     end
@@ -109,6 +111,7 @@ ActiveAdmin.register Schedule, :as => "Clases" do
       f.input :room, label: "Cuarto", :collection => Room.all.collect{|room| [room.description, room.id]}, :as => :select, :include_blank => false 
       f.input :description, label: "Descripción"
       f.input :free, label: "Gratis"
+      f.input :opening, label: "Apertura"
       f.input :schedule_type, label: "Tipo de clase", :collection => ScheduleType.active.collect{|s| [ s.description, s.id]}, :as => :select, :include_blank => false 
     end
     f.actions

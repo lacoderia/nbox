@@ -93,6 +93,8 @@ feature 'AppointmentsController' do
     let!(:schedule) { create(:schedule, datetime: starting_datetime + 1.hour) }
     let!(:schedule_free) { create(:schedule, datetime: starting_datetime + 1.hour, free: true) }
     let!(:schedule_free_02) { create(:schedule, datetime: starting_datetime + 2.hour, free: true) }
+    let!(:schedule_opening) { create(:schedule, datetime: starting_datetime + 1.hour, opening: true) }
+    let!(:schedule_opening_02) { create(:schedule, datetime: starting_datetime + 2.hour, opening: true) }
     let!(:schedule_02) { create(:schedule, datetime: starting_datetime + 4.hour) }
     let!(:user_with_classes_left) { create(:user, classes_left: 2, last_class_purchased: starting_datetime) }
     let!(:user_with_no_classes_left) { create(:user, classes_left: 0, last_class_purchased: starting_datetime) }
@@ -186,7 +188,7 @@ feature 'AppointmentsController' do
 
     end
 
-    it 'should test that more than one free schedule cant be booked betwen free_classes_start_date and free_classes_end_date params' do
+    it 'should test that only one opening class is free betwen free_classes_start_date and free_classes_end_date params' do
 
       Config.create(key: "free_classes_start_date", value: starting_datetime.strftime("%FT%T.%L%:z"))
       Config.create(key: "free_classes_end_date", value: (starting_datetime + 1.day).strftime("%FT%T.%L%:z"))
@@ -195,7 +197,7 @@ feature 'AppointmentsController' do
       access_token_1, uid_1, client_1, expiry_1, token_type_1 = get_headers
       set_headers access_token_1, uid_1, client_1, expiry_1, token_type_1
 
-      new_appointment_request = {schedule_id: schedule_free.id, station_number: 4, description: "Mi primera clase"}      
+      new_appointment_request = {schedule_id: schedule_opening.id, station_number: 4, description: "Mi primera clase"}      
       with_rack_test_driver do
         page.driver.post book_appointments_path, new_appointment_request
       end
@@ -211,15 +213,19 @@ feature 'AppointmentsController' do
       expect(SendEmailJob).to have_been_enqueued.with("booking", global_id(user_with_classes_left), global_id(Appointment.last))
       perform_enqueued_jobs { SendEmailJob.perform_later("booking", user_with_classes_left, Appointment.last) }
 
-      #Can't book another free schedule between the free_classes_start_date and free_classes_end_date params
-      new_appointment_request = {schedule_id: schedule_free_02.id, station_number: 2, description: "Mi primera clase"}      
+      #will deduct classes the next opening class
+      new_appointment_request = {schedule_id: schedule_opening_02.id, station_number: 2, description: "Mi primera clase"}      
       with_rack_test_driver do
         page.driver.post book_appointments_path, new_appointment_request
       end
 
       response = JSON.parse(page.body)
-      expect(page.status_code).to be 500
-      expect(response["errors"][0]["title"]).to eql "Sólo puedes reservar un lugar en cualquier clase gratis de apertura."
+      expect(response["appointment"]["booked_seats"][0]["number"]).to eq 2
+      appointment = Appointment.find(response["appointment"]["id"])
+      expect(appointment.status).to eql "BOOKED"
+      user = User.find(response["appointment"]["user_id"])
+      #One credits deducted
+      expect(user.classes_left).to eql 1
 
       logout
 
