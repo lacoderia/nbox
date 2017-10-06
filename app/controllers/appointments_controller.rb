@@ -24,7 +24,7 @@ class AppointmentsController < ApiController
       render json: @appointment
     rescue Exception => e
       appointment = Appointment.new
-      appointment.errors.add(:error_creating_appointment, e.message)
+      appointment.errors.add(:error_cancelling_appointment, e.message)
       render json: ErrorSerializer.serialize(appointment.errors), status: 500
     end
   end

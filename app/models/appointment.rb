@@ -31,14 +31,14 @@ class Appointment < ActiveRecord::Base
     if current_user.test?
       if Time.zone.now < (self.start - 1.minute)
         self.cancel!
-        self.user.update_attribute(:classes_left, self.user.classes_left + 1)
+        self.user.update_attribute(:classes_left, self.user.classes_left + 1) if self.user.classes_left
       else
         raise "Sólo se pueden cancelar clases con usuario de pruebas con 1 minuto de anticipación."
       end
     else
       if Time.zone.now < (self.start - 12.hours)
         self.cancel!
-        self.user.update_attribute(:classes_left, self.user.classes_left + 1)
+        self.user.update_attribute(:classes_left, self.user.classes_left + 1) if self.user.classes_left
       else
         raise "Sólo se pueden cancelar clases con 12 horas de anticipación."
       end
