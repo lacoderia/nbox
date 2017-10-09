@@ -27,18 +27,35 @@ class Appointment < ActiveRecord::Base
   #scope :today_with_users, -> {where("true").includes(:user, :schedule=> :instructor)}
 
   def cancel_with_time_check current_user
-
     if current_user.test?
       if Time.zone.now < (self.start - 1.minute)
         self.cancel!
-        self.user.update_attribute(:classes_left, self.user.classes_left + 1) if self.user.classes_left
+        if self.user.classes_left and (not self.schedule.free)
+          if self.schedule.opening 
+            future_free_appointments = current_user.appointments.booked.joins(:schedule).where("schedules.datetime between ? and ? and schedules.opening = ?", Config.free_classes_start_date, Config.free_classes_end_date, true)
+            if not future_free_appointments.empty?
+              self.user.update_attribute(:classes_left, self.user.classes_left + 1) 
+            end
+          else
+            self.user.update_attribute(:classes_left, self.user.classes_left + 1) 
+          end
+        end
       else
         raise "Sólo se pueden cancelar clases con usuario de pruebas con 1 minuto de anticipación."
       end
     else
       if Time.zone.now < (self.start - 12.hours)
         self.cancel!
-        self.user.update_attribute(:classes_left, self.user.classes_left + 1) if self.user.classes_left
+        if self.user.classes_left and (not self.schedule.free)
+          if self.schedule.opening 
+            future_free_appointments = current_user.appointments.booked.joins(:schedule).where("schedules.datetime between ? and ? and schedules.opening = ?", Config.free_classes_start_date, Config.free_classes_end_date, true)
+            if not future_free_appointments.empty?
+              self.user.update_attribute(:classes_left, self.user.classes_left + 1) 
+            end
+          else
+            self.user.update_attribute(:classes_left, self.user.classes_left + 1) 
+          end
+        end
       else
         raise "Sólo se pueden cancelar clases con 12 horas de anticipación."
       end

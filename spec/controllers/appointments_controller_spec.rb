@@ -91,18 +91,102 @@ feature 'AppointmentsController' do
   context 'Creating, editing, and cancelling appointments' do
   
     let!(:schedule) { create(:schedule, datetime: starting_datetime + 1.hour) }
-    let!(:schedule_free) { create(:schedule, datetime: starting_datetime + 1.hour, free: true) }
-    let!(:schedule_free_02) { create(:schedule, datetime: starting_datetime + 2.hour, free: true) }
-    let!(:schedule_opening) { create(:schedule, datetime: starting_datetime + 1.hour, opening: true) }
-    let!(:schedule_opening_02) { create(:schedule, datetime: starting_datetime + 2.hour, opening: true) }
+    let!(:schedule_free) { create(:schedule, datetime: starting_datetime + 1.day + 1.hour, free: true) }
+    let!(:schedule_free_02) { create(:schedule, datetime: starting_datetime + 1.day + 2.hour, free: true) }
+    let!(:schedule_opening) { create(:schedule, datetime: starting_datetime + 1.day + 1.hour, opening: true) }
+    let!(:schedule_opening_02) { create(:schedule, datetime: starting_datetime + 1.day + 2.hour, opening: true) }
     let!(:schedule_02) { create(:schedule, datetime: starting_datetime + 4.hour) }
     let!(:user_with_classes_left) { create(:user, classes_left: 2, last_class_purchased: starting_datetime) }
     let!(:user_with_no_classes_left) { create(:user, classes_left: 0, last_class_purchased: starting_datetime) }
     let!(:user_with_nil_classes_left) { create(:user) }
     let!(:test_user){create(:user, classes_left: 2, last_class_purchased: starting_datetime, test: true)}
+      
+    let!(:config_start){create(:config, key: "free_classes_start_date", value: (starting_datetime + 1.day).strftime("%FT%T.%L%:z"))}
+    let!(:config_end){create(:config, key: "free_classes_end_date", value: (starting_datetime + 2.days).strftime("%FT%T.%L%:z"))}
 
     before do
       Timecop.freeze(starting_datetime)
+    end
+
+    it 'should test that free schedules dont add +1 class to the user' do
+
+      #User with credits
+      page = login_with_service user = { email: user_with_classes_left[:email], password: "12345678" }
+      access_token_1, uid_1, client_1, expiry_1, token_type_1 = get_headers
+      set_headers access_token_1, uid_1, client_1, expiry_1, token_type_1
+
+      new_appointment_request = {schedule_id: schedule_free.id, station_number: 4, description: "Mi primera clase"}      
+      with_rack_test_driver do
+        page.driver.post book_appointments_path, new_appointment_request
+      end
+
+      response = JSON.parse(page.body)
+      expect(response["appointment"]["booked_seats"][0]["number"]).to eq 4
+      appointment = Appointment.find(response["appointment"]["id"])
+      expect(appointment.status).to eql "BOOKED"
+      user = User.find(response["appointment"]["user_id"])
+      #No credits deducted
+      expect(user.classes_left).to eql 2
+
+      visit cancel_appointment_path(appointment.id)
+      response = JSON.parse(page.body)
+      user = User.find(response["appointment"]["user_id"])
+      #No credits added
+      expect(user.classes_left).to eql 2
+      appointment = Appointment.find(response["appointment"]["id"])
+      expect(appointment.status).to eql "CANCELLED"
+
+    end
+
+    it 'should test that first opening schedules dont add +1 class to the user' do
+
+      #User with credits
+      page = login_with_service user = { email: user_with_classes_left[:email], password: "12345678" }
+      access_token_1, uid_1, client_1, expiry_1, token_type_1 = get_headers
+      set_headers access_token_1, uid_1, client_1, expiry_1, token_type_1
+
+      new_appointment_request = {schedule_id: schedule_opening.id, station_number: 4, description: "Mi primera clase"}      
+      with_rack_test_driver do
+        page.driver.post book_appointments_path, new_appointment_request
+      end
+
+      response = JSON.parse(page.body)
+      expect(response["appointment"]["booked_seats"][0]["number"]).to eq 4
+      appointment_1 = Appointment.find(response["appointment"]["id"])
+      expect(appointment_1.status).to eql "BOOKED"
+      user = User.find(response["appointment"]["user_id"])
+      #No credits deducted
+      expect(user.classes_left).to eql 2
+
+      new_appointment_request = {schedule_id: schedule_opening_02.id, station_number: 4, description: "Mi primera clase"}      
+      with_rack_test_driver do
+        page.driver.post book_appointments_path, new_appointment_request
+      end
+
+      response = JSON.parse(page.body)
+      expect(response["appointment"]["booked_seats"][0]["number"]).to eq 4
+      appointment_2 = Appointment.find(response["appointment"]["id"])
+      expect(appointment_2.status).to eql "BOOKED"
+      user = User.find(response["appointment"]["user_id"])
+      #One credit deducted
+      expect(user.classes_left).to eql 1
+
+      visit cancel_appointment_path(appointment_1.id)
+      response = JSON.parse(page.body)
+      user = User.find(response["appointment"]["user_id"])
+      #One credit refunded
+      expect(user.classes_left).to eql 2
+      cancelled_appointment = Appointment.find(response["appointment"]["id"])
+      expect(cancelled_appointment.status).to eql "CANCELLED"
+
+      visit cancel_appointment_path(appointment_2.id)
+      response = JSON.parse(page.body)
+      user = User.find(response["appointment"]["user_id"])
+      #No extra credits added
+      expect(user.classes_left).to eql 2
+      cancelled_appointment = Appointment.find(response["appointment"]["id"])
+      expect(cancelled_appointment.status).to eql "CANCELLED"
+
     end
 
     it 'should test that free schedules dont deduct credits and that no credits are required to book them ' do
@@ -190,9 +274,6 @@ feature 'AppointmentsController' do
 
     it 'should test that only one opening class is free betwen free_classes_start_date and free_classes_end_date params' do
 
-      Config.create(key: "free_classes_start_date", value: starting_datetime.strftime("%FT%T.%L%:z"))
-      Config.create(key: "free_classes_end_date", value: (starting_datetime + 1.day).strftime("%FT%T.%L%:z"))
-
       page = login_with_service user = { email: user_with_classes_left[:email], password: "12345678" }
       access_token_1, uid_1, client_1, expiry_1, token_type_1 = get_headers
       set_headers access_token_1, uid_1, client_1, expiry_1, token_type_1
@@ -224,7 +305,7 @@ feature 'AppointmentsController' do
       appointment = Appointment.find(response["appointment"]["id"])
       expect(appointment.status).to eql "BOOKED"
       user = User.find(response["appointment"]["user_id"])
-      #One credits deducted
+      #One credit deducted
       expect(user.classes_left).to eql 1
 
       logout
