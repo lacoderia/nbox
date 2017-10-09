@@ -124,7 +124,7 @@ class Appointment < ActiveRecord::Base
         end
 
       elsif schedule.free
-        free_appointments = user.appointments.where("schedule_id = ?", schedule.id)
+        free_appointments = user.appointments.booked.where("schedule_id = ?", schedule.id)
         if free_appointments.empty?
           schedule.appointments << appointment = Appointment.create!(user: user, schedule: schedule, station_number: station_number, status: "BOOKED", start: schedule.datetime, description: description)
         else
