@@ -1,19 +1,11 @@
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 	<head>
-		<!-- NAME: SELL PRODUCTS -->
-		<!--[if gte mso 15]>
-		<xml>
-			<o:OfficeDocumentSettings>
-			<o:AllowPNG/>
-			<o:PixelsPerInch>96</o:PixelsPerInch>
-			</o:OfficeDocumentSettings>
-		</xml>
-		<![endif]-->
+
 		<meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>*|MC:SUBJECT|*</title>
+		<title>RESERVA LISTA</title>
         
     <style type="text/css">
 		p{
@@ -166,7 +158,7 @@
 	*/
 		#templateHeader{
 			/*@editable*/background-color:#000000;
-			/*@editable*/background-image:url(<%= "http://" + ENV['HOST'] %>/booking/background.png);
+			/*@editable*/background-image:url("http://n-box.com.mx/imagenes-correos/1.png");
 			/*@editable*/background-repeat:no-repeat;
 			/*@editable*/background-position:center;
 			/*@editable*/background-size:cover;
@@ -483,9 +475,7 @@
 
 }</style></head>
     <body>
-		<!--*|IF:MC_PREVIEW_TEXT|*-->
-		<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none; font-size:0px; line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->
-		<!--*|END:IF|*-->
+
         <center>
             <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
                 <tr>
@@ -494,11 +484,7 @@
                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
 							<tr>
 								<td align="center" valign="top" id="templateHeader" data-template-container>
-									<!--[if gte mso 9]>
-									<table align="center" border="0" cellspacing="0" cellpadding="0" width="600" style="width:600px;">
-									<tr>
-									<td align="center" valign="top" width="600" style="width:600px;">
-									<![endif]-->
+								
 									<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" class="templateContainer">
 										<tr>
                                 			<td valign="top" class="headerContainer"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnImageBlock" style="min-width:100%;">
@@ -510,7 +496,7 @@
                             <td class="mcnImageContent" valign="top" style="padding-right: 9px; padding-left: 9px; padding-top: 0; padding-bottom: 0;">
                                 
                                     
-                                        <img align="left" alt="" src="<%= "http://" + ENV['HOST'] %>/booking/logo.png" width="200" style="max-width:200px; padding-bottom: 0; display: inline !important; vertical-align: bottom;" class="mcnImage">
+                                        <img align="left" alt="" src="http://n-box.com.mx/imagenes-correos/logo.png" width="200" style="max-width:200px; padding-bottom: 0; display: inline !important; vertical-align: bottom;" class="mcnImage">
                                     
                                 
                             </td>
@@ -523,34 +509,20 @@
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner" style="padding-top:9px;">
-              	<!--[if mso]>
-				<table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%;">
-				<tr>
-				<![endif]-->
-			    
-				<!--[if mso]>
-				<td valign="top" width="600" style="width:600px;">
-				<![endif]-->
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
                     <tbody><tr>
                         
                         <td valign="top" class="mcnTextContent" style="padding: 0px 18px 9px; text-align: left;">
                         
-                            <h1 style="text-align: left;"><%= @user.first_name.split.map(&:capitalize).join(' ').upcase %>, TU RESERVACIÓN</h1>
+                            <h1 style="text-align: left;"><%= @user.first_name.split.map(&:capitalize).join(' ').upcase %>, TU RESERVACIÓN</h1></h1>
 
 <h1 style="text-align: left;">ESTÁ LISTA</h1>
 
                         </td>
                     </tr>
                 </tbody></table>
-				<!--[if mso]>
-				</td>
-				<![endif]-->
-                
-				<!--[if mso]>
-				</tr>
-				</table>
-				<![endif]-->
+	
             </td>
         </tr>
     </tbody>
@@ -565,10 +537,7 @@
                         </td>
                     </tr>
                 </tbody></table>
-<!--            
-                <td class="mcnDividerBlockInner" style="padding: 18px;">
-                <hr class="mcnDividerContent" style="border-bottom-color:none; border-left-color:none; border-right-color:none; border-bottom-width:0; border-left-width:0; border-right-width:0; margin-top:0; margin-right:0; margin-bottom:0; margin-left:0;" />
--->
+
             </td>
         </tr>
     </tbody>
@@ -576,67 +545,37 @@
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner" style="padding-top:9px;">
-              	<!--[if mso]>
-				<table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%;">
-				<tr>
-				<![endif]-->
-			    
-				<!--[if mso]>
-				<td valign="top" width="600" style="width:600px;">
-				<![endif]-->
+      
                 <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
                     <tbody><tr>
                         
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
                         
-                            <h4 class="null"><%= @appointment.schedule.instructor.first_name %> te espera el <strong><%= @appointment.start.strftime("%d/%m/%Y %I:%M%p") %></strong><br>
+                            <h4 class="null"><%= @appointment.schedule.instructor.first_name %> te espera el  <strong><%= @appointment.start.strftime("%d/%m/%Y %I:%M%p") %></strong><br>
                               Tu entrenamiento de <%= @appointment.schedule.schedule_type.description %> comenzará&nbsp;en la estación <%= @appointment.station_number %>.</h4>
-
                         </td>
                     </tr>
                 </tbody></table>
-				<!--[if mso]>
-				</td>
-				<![endif]-->
-                
-				<!--[if mso]>
-				</tr>
-				</table>
-				<![endif]-->
+
             </td>
         </tr>
     </tbody>
 </table></td>
 										</tr>
 									</table>
-									<!--[if gte mso 9]>
-									</td>
-									</tr>
-									</table>
-									<![endif]-->
+							
 								</td>
                             </tr>
 							<tr>
 								<td align="center" valign="top" id="templateBody" data-template-container>
-									<!--[if gte mso 9]>
-									<table align="center" border="0" cellspacing="0" cellpadding="0" width="600" style="width:600px;">
-									<tr>
-									<td align="center" valign="top" width="600" style="width:600px;">
-									<![endif]-->
+								
 									<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" class="templateContainer">
 										<tr>
                                 			<td valign="top" class="bodyContainer"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="min-width:100%;">
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner" style="padding-top:9px;">
-              	<!--[if mso]>
-				<table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%;">
-				<tr>
-				<![endif]-->
-			    
-				<!--[if mso]>
-				<td valign="top" width="600" style="width:600px;">
-				<![endif]-->
+            
                 <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
                     <tbody><tr>
                         
@@ -657,48 +596,26 @@
                         </td>
                     </tr>
                 </tbody></table>
-				<!--[if mso]>
-				</td>
-				<![endif]-->
-                
-				<!--[if mso]>
-				</tr>
-				</table>
-				<![endif]-->
+
             </td>
         </tr>
     </tbody>
 </table></td>
 										</tr>
 									</table>
-									<!--[if gte mso 9]>
-									</td>
-									</tr>
-									</table>
-									<![endif]-->
+
 								</td>
                             </tr>
                             <tr>
 								<td align="center" valign="top" id="templateFooter" data-template-container>
-									<!--[if gte mso 9]>
-									<table align="center" border="0" cellspacing="0" cellpadding="0" width="600" style="width:600px;">
-									<tr>
-									<td align="center" valign="top" width="600" style="width:600px;">
-									<![endif]-->
+
 									<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" class="templateContainer">
 										<tr>
                                 			<td valign="top" class="footerContainer"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="min-width:100%;">
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner" style="padding-top:9px;">
-              	<!--[if mso]>
-				<table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%;">
-				<tr>
-				<![endif]-->
-			    
-				<!--[if mso]>
-				<td valign="top" width="600" style="width:600px;">
-				<![endif]-->
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
                     <tbody><tr>
                         
@@ -709,14 +626,7 @@
                         </td>
                     </tr>
                 </tbody></table>
-				<!--[if mso]>
-				</td>
-				<![endif]-->
-                
-				<!--[if mso]>
-				</tr>
-				</table>
-				<![endif]-->
+
             </td>
         </tr>
     </tbody>
@@ -724,51 +634,32 @@
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner" style="padding-top:9px;">
-              	<!--[if mso]>
-				<table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%;">
-				<tr>
-				<![endif]-->
-			    
-				<!--[if mso]>
-				<td valign="top" width="300" style="width:300px;">
-				<![endif]-->
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:300px;" width="100%" class="mcnTextContentContainer">
                     <tbody><tr>
                         
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-left:18px; padding-bottom:9px; padding-right:18px;">
                         
-                            <h4 class="null" style="text-align: left;"><a href="http://n-box.com.mx/mi-cuenta/" target="_blank"><span class="mc-toc-title"><img align="left" data-file-id="115075" height="48" src="<%= "http://" + ENV['HOST'] %>/booking/decal.png" style="border: 0px  ; width: 48px; height: 48px; margin: 0px 15px;" width="48">Ver<br>
-mis reservaciones</span></a></h4>
+                            <h4 class="null" style="text-align: left;"><a href="http://n-box.com.mx/mi-cuenta" target="_blank"><span class="mc-toc-title"><img align="left" data-file-id="115075" height="48" src="http://n-box.com.mx/imagenes-correos/2.png" style="border: 0px  ; width: 48px; height: 48px; margin: 0px 15px;" width="48">Modificar<br>
+mi reservación</span></a></h4>
 
                         </td>
                     </tr>
                 </tbody></table>
-				<!--[if mso]>
-				</td>
-				<![endif]-->
-                
-				<!--[if mso]>
-				<td valign="top" width="300" style="width:300px;">
-				<![endif]-->
+
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:300px;" width="100%" class="mcnTextContentContainer">
                     <tbody><tr>
                         
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-left:18px; padding-bottom:9px; padding-right:18px;">
                         
-                            <h4 class="null"><span class="mc-toc-title"><img align="left" data-file-id="115075" height="48" src="<%= "http://" + ENV['HOST'] %>/booking/decal.png" style="border: 0px  ; width: 48px; height: 48px; margin: 0px 15px;" width="48"><a href="http://n-box.com.mx/reserva/" target="_blank">Agendar</a></span><br>
-<a href="http://n-box.com.mx/reserva/" target="_blank">otra reservación</a></h4>
+                            <h4 class="null"><span class="mc-toc-title"><img align="left" data-file-id="115075" height="48" src="http://n-box.com.mx/imagenes-correos/2.png" style="border: 0px  ; width: 48px; height: 48px; margin: 0px 15px;" width="48"><a href="http://n-box.com.mx/reserva/" target="_blank">Agendar</a></span><br>
+<a href="http://n-box.com.mx/reserva/">otra reservación</a></h4>
 
                         </td>
                     </tr>
                 </tbody></table>
-				<!--[if mso]>
-				</td>
-				<![endif]-->
-                
-				<!--[if mso]>
-				</tr>
-				</table>
-				<![endif]-->
+
             </td>
         </tr>
     </tbody>
@@ -783,10 +674,7 @@ mis reservaciones</span></a></h4>
                         </td>
                     </tr>
                 </tbody></table>
-<!--            
-                <td class="mcnDividerBlockInner" style="padding: 18px;">
-                <hr class="mcnDividerContent" style="border-bottom-color:none; border-left-color:none; border-right-color:none; border-bottom-width:0; border-left-width:0; border-right-width:0; margin-top:0; margin-right:0; margin-bottom:0; margin-left:0;" />
--->
+
             </td>
         </tr>
     </tbody>
@@ -794,14 +682,7 @@ mis reservaciones</span></a></h4>
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner" style="padding-top:9px;">
-              	<!--[if mso]>
-				<table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%;">
-				<tr>
-				<![endif]-->
-			    
-				<!--[if mso]>
-				<td valign="top" width="600" style="width:600px;">
-				<![endif]-->
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
                     <tbody><tr>
                         
@@ -811,33 +692,20 @@ mis reservaciones</span></a></h4>
                         </td>
                     </tr>
                 </tbody></table>
-				<!--[if mso]>
-				</td>
-				<![endif]-->
-                
-				<!--[if mso]>
-				</tr>
-				</table>
-				<![endif]-->
+
             </td>
         </tr>
     </tbody>
 </table></td>
 										</tr>
 									</table>
-									<!--[if gte mso 9]>
-									</td>
-									</tr>
-									</table>
-									<![endif]-->
+
 								</td>
                             </tr>
                         </table>
-                        <!-- // END TEMPLATE -->
                     </td>
                 </tr>
             </table>
         </center>
     </body>
 </html>
-
