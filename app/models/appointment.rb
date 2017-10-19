@@ -32,7 +32,7 @@ class Appointment < ActiveRecord::Base
         self.cancel!
         if self.user.classes_left and (not self.schedule.free)
           if self.schedule.opening 
-            future_free_appointments = current_user.appointments.booked.joins(:schedule).where("schedules.datetime between ? and ? and schedules.opening = ?", Config.free_classes_start_date, Config.free_classes_end_date, true)
+            future_free_appointments = current_user.appointments.not_cancelled.joins(:schedule).where("schedules.datetime between ? and ? and schedules.opening = ?", Config.free_classes_start_date, Config.free_classes_end_date, true)
             if not future_free_appointments.empty?
               self.user.update_attribute(:classes_left, self.user.classes_left + 1) 
             end
@@ -48,7 +48,7 @@ class Appointment < ActiveRecord::Base
         self.cancel!
         if self.user.classes_left and (not self.schedule.free)
           if self.schedule.opening 
-            future_free_appointments = current_user.appointments.booked.joins(:schedule).where("schedules.datetime between ? and ? and schedules.opening = ?", Config.free_classes_start_date, Config.free_classes_end_date, true)
+            future_free_appointments = current_user.appointments.not_cancelled.joins(:schedule).where("schedules.datetime between ? and ? and schedules.opening = ?", Config.free_classes_start_date, Config.free_classes_end_date, true)
             if not future_free_appointments.empty?
               self.user.update_attribute(:classes_left, self.user.classes_left + 1) 
             end
@@ -108,7 +108,7 @@ class Appointment < ActiveRecord::Base
 
     if (not schedule.bookings.find{|station| station.number == station_number})
       if schedule.opening
-        future_free_appointments = user.appointments.booked.joins(:schedule).where("schedules.datetime between ? and ? and schedules.opening = ?", Config.free_classes_start_date, Config.free_classes_end_date, true)
+        future_free_appointments = user.appointments.not_cancelled.joins(:schedule).where("schedules.datetime between ? and ? and schedules.opening = ?", Config.free_classes_start_date, Config.free_classes_end_date, true)
         if future_free_appointments.empty?
           schedule.appointments << appointment = Appointment.create!(user: user, schedule: schedule, station_number: station_number, status: "BOOKED", start: schedule.datetime, description: description)
         else

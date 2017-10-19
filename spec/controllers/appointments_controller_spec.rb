@@ -294,6 +294,9 @@ feature 'AppointmentsController' do
       expect(SendEmailJob).to have_been_enqueued.with("booking", global_id(user_with_classes_left), global_id(Appointment.last))
       perform_enqueued_jobs { SendEmailJob.perform_later("booking", user_with_classes_left, Appointment.last) }
 
+      #finalizing first free class
+      appointment.update_attribute("status", "FINALIZED")
+
       #will deduct classes the next opening class
       new_appointment_request = {schedule_id: schedule_opening_02.id, station_number: 2, description: "Mi primera clase"}      
       with_rack_test_driver do
