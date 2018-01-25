@@ -6,6 +6,10 @@ FactoryGirl.define do
     association :room, factory: :room
     association :instructor, factory: :instructor
     association :schedule_type, factory: :schedule_type
+
+    trait :with_alternate_instructor do
+      association :alternate_instructor, factory: :instructor
+    end
   end
 
 end

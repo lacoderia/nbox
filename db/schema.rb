@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171006181953) do
+ActiveRecord::Schema.define(version: 20180125203236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -232,12 +232,13 @@ ActiveRecord::Schema.define(version: 20171006181953) do
     t.integer  "instructor_id"
     t.integer  "room_id"
     t.datetime "datetime"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.string   "description"
-    t.boolean  "free",             default: false
+    t.boolean  "free",                    default: false
     t.integer  "schedule_type_id"
-    t.boolean  "opening",          default: false
+    t.boolean  "opening",                 default: false
+    t.integer  "alternate_instructor_id"
   end
 
   create_table "users", force: :cascade do |t|

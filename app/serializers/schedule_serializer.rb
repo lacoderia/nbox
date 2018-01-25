@@ -1,6 +1,6 @@
 class ScheduleSerializer < ActiveModel::Serializer
 
-  attributes :id, :datetime, :room, :instructor, :available_seats, :description, :free, :opening, :schedule_type
+  attributes :id, :datetime, :room, :instructor, :available_seats, :description, :free, :opening, :schedule_type, :alternate_instructor
 
   def room
     room_obj = {}
@@ -25,6 +25,16 @@ class ScheduleSerializer < ActiveModel::Serializer
       instructor_obj[:first_name] = object.instructor.first_name
       instructor_obj[:last_name] = object.instructor.last_name
       return instructor_obj
+    end
+  end
+
+  def alternate_instructor
+    if object.alternate_instructor
+      alternate_instructor_obj = {}
+      alternate_instructor_obj[:id] = object.alternate_instructor.id
+      alternate_instructor_obj[:first_name] = object.alternate_instructor.first_name
+      alternate_instructor_obj[:last_name] = object.alternate_instructor.last_name
+      return alternate_instructor_obj      
     end
   end
 

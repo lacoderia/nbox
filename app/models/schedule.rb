@@ -2,6 +2,7 @@ class Schedule < ActiveRecord::Base
   belongs_to :instructor
   belongs_to :room
   belongs_to :schedule_type
+  belongs_to :alternate_instructor, :foreign_key => "alternate_instructor_id", :class_name => "Instructor"
   has_many :appointments, :dependent => :delete_all
 
   def self.weekly_scope

@@ -3,11 +3,11 @@ feature 'SchedulesController' do
   let!(:starting_datetime) { Time.zone.parse('01 Jan 2016 01:00:00') }  
   
   let!(:schedule_current_week_01) { create(:schedule, datetime: starting_datetime, description: "semana uno" ) }
-  let!(:schedule_current_week_02) { create(:schedule, datetime: starting_datetime + 7.days + 22.hours + 59.minutes) }
+  let!(:schedule_current_week_02) { create(:schedule, :with_alternate_instructor, datetime: starting_datetime + 7.days + 22.hours + 59.minutes) }
   let!(:schedule_past_week) { create(:schedule, datetime: starting_datetime - 1.day) }
-  let!(:schedule_next_week) { create(:schedule, datetime: starting_datetime + 8.days, free: true) }
+  let!(:schedule_next_week) { create(:schedule, :with_alternate_instructor, datetime: starting_datetime + 8.days, free: true) }
 
-  let!(:schedule_next_2_months) { create(:schedule, datetime: starting_datetime + 1.month) }
+  let!(:schedule_next_2_months) { create(:schedule, :with_alternate_instructor, datetime: starting_datetime + 1.month) }
   let!(:schedule_next_2_months_and_a_week) { create(:schedule, datetime: starting_datetime + 1.month + 8.days)}
 
   let!(:appointment_01) { create(:appointment, schedule: schedule_current_week_01, station_number: 4) }
@@ -28,7 +28,9 @@ feature 'SchedulesController' do
         expect(response['schedules'][0]["schedule_type"]).not_to be nil
         expect(response['schedules'][0]['id']).to eql schedule_current_week_01.id
         expect(response['schedules'][0]['description']).to eql "semana uno"
+        expect(response['schedules'][0]['alternate_instructor']).to be nil
         expect(response['schedules'][1]['id']).to eql schedule_current_week_02.id
+        expect(response['schedules'][1]['alternate_instructor']).to_not be nil
         expect(Schedule.count).to eql 6
         expect(response['schedules'][0]['available_seats']).to eql 2
         expect(response['schedules'][1]['available_seats']).to eql 4
@@ -53,6 +55,7 @@ feature 'SchedulesController' do
       response = JSON.parse(page.body)
       expect(response['schedules'].count).to eql 1
       expect(response['schedules'][0]['id']).to eql schedule_next_2_months.id
+      expect(response['schedules'][0]['alternate_instructor']).to_not be nil
 
     end
 

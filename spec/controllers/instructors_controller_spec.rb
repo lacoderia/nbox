@@ -5,11 +5,11 @@ feature 'InstructorsController' do
   let!(:instructor_01) { create(:instructor, quote: "YES EN INGLES") }
   let!(:instructor_02) { create(:instructor, quote: "OUI EN FRANCES") }
   let!(:schedule_01){ create(:schedule, instructor: instructor_01, datetime: starting_datetime + 1.hour) }
-  let!(:schedule_02){ create(:schedule, instructor: instructor_01, datetime: starting_datetime + 7.days) }
+  let!(:schedule_02){ create(:schedule, instructor: instructor_01, datetime: starting_datetime + 7.days, alternate_instructor: instructor_02) }
   let!(:schedule_03){ create(:schedule, instructor: instructor_02, datetime: starting_datetime) }
   let!(:schedule_04){ create(:schedule, instructor: instructor_02, datetime: starting_datetime + 7.days + 1.minute) }
   
-  let!(:schedule_next_2_months) { create(:schedule, instructor: instructor_01, datetime: starting_datetime + 1.month + 1.hour) }
+  let!(:schedule_next_2_months) { create(:schedule, instructor: instructor_01, datetime: starting_datetime + 1.month + 1.hour, alternate_instructor: instructor_02) }
   let!(:schedule_next_2_months_and_a_week) { create(:schedule, instructor: instructor_01, datetime: starting_datetime + 1.month + 7.days)}
 
   context 'Get all instructors' do
@@ -38,11 +38,13 @@ feature 'InstructorsController' do
       visit instructor_path(instructor_01.id)
       response = JSON.parse(page.body)
       expect(response["instructor"]["weekly_schedules"]["schedules"].count).to eql 2
+      expect(response["instructor"]["weekly_schedules"]["schedules"][1]["alternate_instructor"]["id"]).to eql instructor_02.id
 
       visit instructor_path(instructor_02.id)
       response = JSON.parse(page.body)
       expect(response["instructor"]["weekly_schedules"]["schedules"].count).to eql 1
       expect(response["instructor"]["weekly_schedules"]["schedules"][0]["id"]).to eql schedule_03.id
+      expect(response["instructor"]["weekly_schedules"]["schedules"][0]["alternate_instructor"]).to be nil
 
     end
 
@@ -55,6 +57,7 @@ feature 'InstructorsController' do
       response = JSON.parse(page.body)
       expect(response["instructor"]["weekly_schedules"]["schedules"].count).to eql 2
       expect(response["instructor"]["weekly_schedules"]["schedules"][0]["id"]).to eql schedule_next_2_months.id
+      expect(response["instructor"]["weekly_schedules"]["schedules"][0]["alternate_instructor"]["id"]).to eql instructor_02.id
       expect(response["instructor"]["weekly_schedules"]["schedules"][1]["id"]).to eql schedule_next_2_months_and_a_week.id
       expect(response["instructor"]["weekly_schedules"]["start_day"]).to eql schedule_next_2_months.datetime.strftime("%FT%T.%L%:z")
     end
