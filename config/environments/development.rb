@@ -5,6 +5,11 @@ Rails.application.configure do
   ENV['WP_HOST'] = "localhost:3000"
   ENV['CONEKTA_KEY'] = 'key_8ieGVhxzTt5fcSYUyE4Tig'
 
+  # REMOTE SYNCH VARIABLES
+  ENV['SYNCH_KEY'] = 'd41d8cd98f00b204e9800998ecf8427e'
+  ENV['REMOTE_HOST'] = 'localhost:3001'
+
+
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.

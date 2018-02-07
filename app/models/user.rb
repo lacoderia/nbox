@@ -19,7 +19,6 @@ class User < ActiveRecord::Base
   has_many :credit_modifications
   has_many :referrals, :foreign_key => "owner_id", :class_name => "Referral"
   
-  
   accepts_nested_attributes_for :credit_modifications
   accepts_nested_attributes_for :purchases
   
@@ -129,6 +128,68 @@ class User < ActiveRecord::Base
       user.update_attribute(:coupon, coupon)
     end
   end
+
+  # N-bici and N-box integration
+
+  # Internal methods   
+  
+  def validate_email email
+    if self.email == email
+      return true
+    else
+      user = User.find_by_email(email)
+      if user
+        return false
+      else
+        return true
+      end
+    end
+  end
+
+  def update_account email, password
+
+    crypt = ActiveSupport::MessageEncryptor.new(ENV['SYNCH_KEY'])
+    encrypted_password = crypt.encrypt_and_sign(password)
+    self.update_attributes!(email: email, password: password, u_password: encrypted_password, linked: true)
+
+  end
+
+  # Remote methods   
+ 
+  def remote_login
+
+    remote_user_session_path = "http://#{ENV['REMOTE_HOST']}/auth/sign_in"
+    crypt = ActiveSupport::MessageEncryptor.new(ENV['SYNCH_KEY'])
+    decrypted_password = crypt.decrypt_and_verify(self.u_password)
+    
+    user_params = { 'user[email]' => self.email, 'user[password]' => decrypted_password }
+    return Connection.post remote_user_session_path, user_params
+
+  end
+
+  def self.remote_authenticate email, password
+    
+    remote_user_session_path = "http://#{ENV['REMOTE_HOST']}/auth/sign_in"
+    user_params = { 'user[email]' => email, 'user[password]' => password }
+    return Connection.post remote_user_session_path, user_params
+
+  end 
+
+  def self.remote_validate_email email, headers 
+
+    remote_validate_email_path = "http://#{ENV['REMOTE_HOST']}/users/validate_email"
+    user_params = { 'email' => email }
+    return Connection.post_with_headers remote_validate_email_path, user_params, headers 
+    
+  end 
+
+  def self.remote_update_account email, password, headers
+    
+    remote_update_account_path = "http://#{ENV['REMOTE_HOST']}/users/update_account"
+    user_params = { 'email' => email, 'password' => password}
+    return Connection.post_with_headers remote_update_account_path, user_params, headers 
+
+  end 
 
   private 
 

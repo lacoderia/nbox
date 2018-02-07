@@ -60,6 +60,7 @@ Rails.application.routes.draw do
     match 'users/sign_up', :to => "registrations#create", :via => [:post, :options]
     match 'users/sign_in', :to => "sessions#create", :via => [:post, :options]
     match 'users/password', :to => "passwords#create", :via => [:post, :options]
+
     get 'logout', :to => "sessions#destroy"
     get 'session', :to => "sessions#get"
   end
@@ -67,6 +68,15 @@ Rails.application.routes.draw do
   resources :users do
     member do
       match 'send_coupon_by_email', :to => "users#send_coupon_by_email", :via => [:post, :options]
+    end
+    collection do
+      #Called from the front end 
+      match 'remote_authenticate', :to => 'users#remote_authenticate', :via => [:post, :options]
+      match 'synchronize_accounts', :to => 'users#synchronize_accounts', :via => [:post, :options]
+      #Called from system to system
+      match 'validate_email', :to => 'users#validate_email', :via => [:post, :options]
+      match 'remote_login', :to => 'users#remote_login', :via => [:post, :options]
+      match 'update_account', :to => 'users#update_account', :via => [:post, :options]
     end
   end
 
