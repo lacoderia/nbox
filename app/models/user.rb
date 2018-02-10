@@ -147,11 +147,11 @@ class User < ActiveRecord::Base
   end
 
   def update_account email, password
-
+    
     crypt = ActiveSupport::MessageEncryptor.new(ENV['SYNCH_KEY'])
     encrypted_password = crypt.encrypt_and_sign(password)
-    self.update_attributes!(email: email, password: password, u_password: encrypted_password, linked: true)
-
+    return self.update_attributes!(email: email, password: password, u_password: encrypted_password)
+    
   end
 
   # Remote methods   
@@ -186,10 +186,20 @@ class User < ActiveRecord::Base
   def self.remote_update_account email, password, headers
     
     remote_update_account_path = "http://#{ENV['REMOTE_HOST']}/users/update_account"
-    user_params = { 'email' => email, 'password' => password}
+    user_params = { 'email' => email, 'password' => password }
     return Connection.post_with_headers remote_update_account_path, user_params, headers 
 
   end 
+ 
+  # N-box unique methods
+
+  def self.remote_send_classes_left classes_left, expiration_date, headers
+
+    remote_receive_classes_left_path = "http://#{ENV['REMOTE_HOST']}/users/receive_classes_left"
+    user_params = { 'classes_left' => classes_left, 'expiration_date' => expiration_date }
+    return Connection.post_with_headers remote_receive_classes_left_path, user_params, headers
+
+  end
 
   private 
 

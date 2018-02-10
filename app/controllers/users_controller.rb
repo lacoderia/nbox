@@ -59,9 +59,9 @@ class UsersController < ApiController
       
       if valid_email and remote_valid_email.code == "200"
         
-        # synchronize user, password, and mark account as linked
+        # synchronize user, password
         remote_valid_update = User.remote_update_account(params[:email], params[:password], session[:request_headers])
-        valid_update = current_user.update_account(email: params[:email], password: params[:password]) 
+        valid_update = current_user.update_account(params[:email], params[:password]) 
         
         if valid_update and remote_valid_update.code == "200"
           render json: current_user, status: :ok
@@ -123,7 +123,44 @@ class UsersController < ApiController
       render json: ErrorSerializer.serialize(errors), status: 500
     end
   end
- 
+
+  # N-box unique methods
+
+  def send_classes_left
+    begin
+      valid_migration = current_user.update_attribute("linked", true)
+      render json: current_user, status: :ok
+    rescue Exception => e
+      errors = {:error_authenticating => [e.message]}
+      render json: ErrorSerializer.serialize(errors), status: 500
+    end
+  end
+
+  def migrate_accounts
+    begin
+      # send classes_left 
+      response = User.remote_send_classes_left(current_user.classes_left, current_user.expiration_date, session[:request_headers])
+      if response.code == "200"
+
+        valid_migration = current_user.update_attribute("linked", true)
+         
+        if valid_migration
+          render json: current_user, status: :ok
+        else
+          # should not happen
+          # local rollback
+          current_user.update_attribute("linked", false)
+          raise 'Error migrando las clases disponibles hacia N-bici. Favor de ponerse en contacto con el administrador.'
+        end        
+      else
+        raise 'Error enviando clases disponibles desde N-box. Favor de ponerse en contacto con el administrador.'
+      end
+    rescue Exception => e
+      errors = {:error_authenticating => [e.message]}
+      render json: ErrorSerializer.serialize(errors), status: 500
+    end
+  end
+   
   private
 
     def set_user

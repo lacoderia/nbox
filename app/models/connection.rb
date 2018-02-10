@@ -25,6 +25,17 @@ class Connection
 
   end 
 
+  def self.get_with_headers url, headers
+    uri = URI.parse(url)
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Get.new(uri.request_uri)
+    Connection.set_headers request, headers
+    response = http.request(request)
+
+    return response
+
+  end
+
   def self.set_headers request, headers #{access_token, uid, client, expiry, token_type}
     
     request.add_field "access-token", headers["access-token"]
