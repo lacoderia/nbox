@@ -7,6 +7,7 @@ ActiveAdmin.register CreditModification, :as => "Modificaciones_de_creditos" do
   filter :user_email, :as => :string, :label => "Email"
   filter :user_id, :label => "ID del usuario"
   filter :created_at, :label => "Fecha"
+  filter :linked, :label => "Ligada"
   
   index :title => "Modificaciones de créditos" do
     column 'ID Usuario' do |credit_modification|
