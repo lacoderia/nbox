@@ -107,7 +107,9 @@ ActiveAdmin.register User, :as => "Todos_los_clientes" do
     column "Nombre", :first_name
     column "Apellido", :last_name
     column "Email", :email
-    column "Clases restantes", :classes_left if not user.linked 
+    column "Clases restantes" do |user|
+      user.classes_left if not user.linked
+    end
     column "Ligada", :linked
 
     actions defaults: false do |user|
