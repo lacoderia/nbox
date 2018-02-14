@@ -8,6 +8,9 @@ class User < ActiveRecord::Base
   before_create :assign_coupon
   before_update :check_staff
 
+  #TODO: if all new users are linked, change to after_initialize or after_create
+  after_find :check_remote_properties
+
   has_and_belongs_to_many :roles
   has_and_belongs_to_many :promotions
 
@@ -45,24 +48,48 @@ class User < ActiveRecord::Base
     return {coupon: self.coupon, email: email}
   end
 
-  def classes_left
+  # REMOTE GET SESSION AFTER FINDING A LINKED USER 
+  #
+  def check_remote_properties
     if self.linked
       # Connect to remote server
       begin
         response = self.remote_login 
         self.headers = Connection.get_headers response
         remote_user = JSON.parse(response.body)
-        return remote_user["user"]["classes_left"]
+        if remote_user["user"]["classes_left"] 
+
+          if not self.old_classes_left
+            self.old_classes_left = self.classes_left
+          end
+          self.classes_left = remote_user["user"]["classes_left"]
+
+        end
+
+        if remote_user["user"]["conekta_id"]
+
+          if not self.old_conekta_id
+            self.old_conekta_id = self.conekta_id
+          end
+          self.conekta_id = remote_user["user"]["conekta_id"]
+
+        end
+        
       rescue Exception => e
-        raise 'Error intentando obtener las clases de N-bici. Favor de contactar al administrador.'
+        raise 'Error de comunicación obteninedo propiedades de N-bici. Favor de contactar al administrador.'
       end
-    else
-      super
     end
   end
-  
+
   #CONEKTA
   def get_or_create_conekta_customer
+
+    if self.linked
+      Conekta.api_key = ENV['REMOTE_CONEKTA_KEY']
+    else
+      Conekta.api_key = ENV['CONEKTA_KEY']
+    end
+
     if self.conekta_id 
       customer = Conekta::Customer.find(self.conekta_id)      
     else
@@ -71,6 +98,14 @@ class User < ActiveRecord::Base
         email: self.email
       })
       self.update_attribute(:conekta_id, customer.id)
+
+      if self.linked
+        begin
+          self.remote_update_attributes({'user[conekta_id]' => customer.id})         
+        rescue Exception => e
+          raise 'Error creando el usuario de conekta en N-bici'
+        end
+      end
     end
     return customer
   end
