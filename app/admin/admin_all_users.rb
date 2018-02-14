@@ -7,7 +7,6 @@ ActiveAdmin.register User, :as => "Todos_los_clientes" do
   filter :first_name, :as => :string, :label => "Nombre"
   filter :last_name, :as => :string, :label => "Apellido"
   filter :email, :as => :string
-  filter :classes_left
   filter :linked, :label => "Ligada"
 
   config.sort_order = 'created_at_desc'

@@ -24,6 +24,8 @@ class User < ActiveRecord::Base
   
   scope :with_appointments_summary, -> {select("users.*, COUNT(CASE WHEN appointments.status = 'BOOKED' THEN 1 END) as booked, COUNT(CASE WHEN appointments.status = 'CANCELLED' THEN 1 END) as cancelled, COUNT(CASE WHEN appointments.status = 'FINALIZED' THEN 1 END) as finalized").joins(:appointments).group("users.id")}
 
+  attr_accessor :headers   
+
   def role?(role)
     return !!self.roles.find_by_name(role)
   end
@@ -41,6 +43,22 @@ class User < ActiveRecord::Base
   def send_coupon_by_email email
     SendEmailJob.perform_later("send_coupon", self, email)
     return {coupon: self.coupon, email: email}
+  end
+
+  def classes_left
+    if self.linked
+      # Connect to remote server
+      begin
+        response = self.remote_login 
+        self.headers = Connection.get_headers response
+        remote_user = JSON.parse(response.body)
+        return remote_user["user"]["classes_left"]
+      rescue Exception => e
+        raise 'Error intentando obtener las clases de N-bici. Favor de contactar al administrador.'
+      end
+    else
+      super
+    end
   end
   
   #CONEKTA
@@ -62,7 +80,8 @@ class User < ActiveRecord::Base
     #TODO: create all the logic inside the SQL query
 
     #BY PURCHASE
-    users_with_classes_left = User.where("classes_left > ?", 0)
+    # check only for not linked users
+    users_with_classes_left = User.where("linked = ? AND classes_left > ?", false, 0)
     users_with_classes_left.each do |user|
       if user.expiration_date and user.expiration_date <= Time.zone.now
         Expiration.create(user_id: user.id, classes_left: user.classes_left, last_class_purchased: user.last_class_purchased)
@@ -82,7 +101,8 @@ class User < ActiveRecord::Base
 
   #Gets users with 1 class left and that have no classes_left_remider emails, or that it has a reminder email but sent more than a week ago
   def self.with_one_class_left
-    User.select("users.*, users.id AS user_id").joins("LEFT OUTER JOIN emails ON emails.user_id = users.id").where("classes_left = ? AND (emails is null OR (NOT EXISTS (SELECT * FROM emails INNER JOIN user ON users.id = emails.user_id  WHERE emails.user_id = user_id AND email_type = ? AND email_status = ? AND emails.created_at < ? AND emails.created_at > ?)))", 1, "classes_left_reminder", "sent", Time.zone.now, Time.zone.now - 7.days).group("users.id").to_a
+    # check only for not linked users
+    User.select("users.*, users.id AS user_id").joins("LEFT OUTER JOIN emails ON emails.user_id = users.id").where("linked = ? AND classes_left = ? AND (emails is null OR (NOT EXISTS (SELECT * FROM emails INNER JOIN user ON users.id = emails.user_id  WHERE emails.user_id = user_id AND email_type = ? AND email_status = ? AND emails.created_at < ? AND emails.created_at > ?)))", false, 1, "classes_left_reminder", "sent", Time.zone.now, Time.zone.now - 7.days).group("users.id").to_a
   end
 
   def self.send_expiration_reminder
@@ -94,8 +114,10 @@ class User < ActiveRecord::Base
   
   #Gets users with purchases and that have no expiration_reminder emails, or that it has a reminder email but sent more than a week ago
   def self.with_expiring_classes
+
     #TODO: create all the logic inside the SQL query
-    users_query = User.select("users.*, users.id AS user_id").joins("LEFT OUTER JOIN emails ON emails.user_id = users.id INNER JOIN purchases ON purchases.user_id = users.id").where("classes_left > ? AND last_class_purchased < ? AND (emails is null OR (NOT EXISTS (SELECT * FROM emails INNER JOIN user ON users.id = emails.user_id WHERE emails.user_id = user_id AND email_type = ? AND email_status = ? AND emails.created_at < ? AND emails.created_at > ?)))", 0, Time.zone.now, "expiration_reminder", "sent", Time.zone.now, Time.zone.now - 7.days).group(:id)
+    # check only for not linked users
+    users_query = User.select("users.*, users.id AS user_id").joins("LEFT OUTER JOIN emails ON emails.user_id = users.id INNER JOIN purchases ON purchases.user_id = users.id").where("linked = ? AND classes_left > ? AND last_class_purchased < ? AND (emails is null OR (NOT EXISTS (SELECT * FROM emails INNER JOIN user ON users.id = emails.user_id WHERE emails.user_id = user_id AND email_type = ? AND email_status = ? AND emails.created_at < ? AND emails.created_at > ?)))", false, 0, Time.zone.now, "expiration_reminder", "sent", Time.zone.now, Time.zone.now - 7.days).group(:id)
     users = []
     users_query.each do |user|
       user_tolerance_for_remaining_classes = Time.zone.now + user.classes_left.days
@@ -198,6 +220,28 @@ class User < ActiveRecord::Base
     remote_receive_classes_left_path = "http://#{ENV['REMOTE_HOST']}/users/receive_classes_left"
     user_params = { 'classes_left' => classes_left, 'expiration_date' => expiration_date }
     return Connection.post_with_headers remote_receive_classes_left_path, user_params, headers
+
+  end
+
+  def remote_update_attributes params_hash
+    
+    if self.headers 
+      expiry_time = Time.at(self.headers["expiry"].to_i)
+      if expiry_time <= Time.zone.now
+        # Get new headers
+        response = self.remote_login 
+        self.headers = Connection.get_headers response
+      end
+    # This code is kept to be used during console automation and tests, but should not be called in normal app operation
+    else 
+      #Get new headers
+      response = self.remote_login 
+      self.headers = Connection.get_headers response
+    end
+
+    remote_update_user_path = "http://#{ENV['REMOTE_HOST']}/users/#{self.id}"
+    user_params = params_hash
+    return Connection.put_with_headers remote_update_user_path, user_params, self.headers
 
   end
 

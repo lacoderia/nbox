@@ -14,23 +14,41 @@ class Connection
 
   def self.post_with_headers url, params, headers
 
-    uri = URI.parse(url)
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Post.new(uri.request_uri)
-    request.set_form_data(params)
-    Connection.set_headers request, headers
-    response = http.request(request)   
-
-    return response
+    return Connection.http_request_with_headers "post", url, params, headers
 
   end 
 
   def self.get_with_headers url, headers
+    
+    return Connection.http_request_with_headers "get", url, nil, headers
+  
+  end
+
+  def self.put_with_headers url, params, headers
+    
+    return Connection.http_request_with_headers "put", url, params, headers
+
+  end
+
+  def self.http_request_with_headers request_type, url, params, headers
+
     uri = URI.parse(url)
     http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Get.new(uri.request_uri)
+
+    if request_type == "get"
+      request = Net::HTTP::Get.new(uri.request_uri)
+    elsif request_type == "post"
+      request = Net::HTTP::Post.new(uri.request_uri)
+    elsif request_type == "put"
+      request = Net::HTTP::Put.new(uri.request_uri)
+    else
+      request = Net::HTTP::Delete.new(uri.request_uri)
+    end
+
+    request.set_form_data(params) if params
+    
     Connection.set_headers request, headers
-    response = http.request(request)
+    response = http.request(request)   
 
     return response
 
