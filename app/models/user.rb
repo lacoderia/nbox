@@ -65,16 +65,6 @@ class User < ActiveRecord::Base
           self.classes_left = remote_user["user"]["classes_left"]
 
         end
-
-        if remote_user["user"]["conekta_id"]
-
-          if not self.old_conekta_id
-            self.old_conekta_id = self.conekta_id
-          end
-          self.conekta_id = remote_user["user"]["conekta_id"]
-
-        end
-        
       rescue Exception => e
         raise 'Error de comunicación obteninedo propiedades de N-bici. Favor de contactar al administrador.'
       end
@@ -83,12 +73,6 @@ class User < ActiveRecord::Base
 
   #CONEKTA
   def get_or_create_conekta_customer
-
-    if self.linked
-      Conekta.api_key = ENV['REMOTE_CONEKTA_KEY']
-    else
-      Conekta.api_key = ENV['CONEKTA_KEY']
-    end
 
     if self.conekta_id 
       customer = Conekta::Customer.find(self.conekta_id)      
@@ -99,13 +83,6 @@ class User < ActiveRecord::Base
       })
       self.update_attribute(:conekta_id, customer.id)
 
-      if self.linked
-        begin
-          self.remote_update_attributes({'user[conekta_id]' => customer.id})         
-        rescue Exception => e
-          raise 'Error creando el usuario de conekta en N-bici'
-        end
-      end
     end
     return customer
   end

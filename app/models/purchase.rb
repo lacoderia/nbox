@@ -15,12 +15,6 @@ class Purchase < ActiveRecord::Base
     if not card
       raise "Tarjeta no encontrada o registrada."
     end
-
-    if user.linked
-      Conekta.api_key = ENV['REMOTE_CONEKTA_KEY']
-    else
-      Conekta.api_key = ENV['CONEKTA_KEY']
-    end
  
     description = pack.description
     currency = "MXN"

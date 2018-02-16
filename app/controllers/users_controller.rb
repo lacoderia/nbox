@@ -54,7 +54,7 @@ class UsersController < ApiController
   # @password definitive password for both systems
   def synchronize_accounts
     begin
-      remote_valid_email = User.remote_validate_email(params[:email]), session[:request_headers]
+      remote_valid_email = User.remote_validate_email(params[:email], session[:request_headers])
       valid_email = current_user.validate_email(params[:email])
       
       if valid_email and remote_valid_email.code == "200"

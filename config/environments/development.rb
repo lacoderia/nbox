@@ -8,8 +8,6 @@ Rails.application.configure do
   # REMOTE SYNCH VARIABLES
   ENV['SYNCH_KEY'] = 'd41d8cd98f00b204e9800998ecf8427e'
   ENV['REMOTE_HOST'] = 'localhost:3001'
-  ENV['REMOTE_CONEKTA_KEY'] = 'key_5RX7V5fz7TMCqypQWJuPnA'
-
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
