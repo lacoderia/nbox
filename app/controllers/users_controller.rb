@@ -42,7 +42,7 @@ class UsersController < ApiController
         session[:request_headers] = Connection.get_headers response
         render json: current_user, status: :ok
       else
-        raise 'Autenticación incorrecta.'
+        raise 'El correo electrónico o la contraseña son incorrectos.'
       end
     rescue Exception => e
       errors = {:error_authenticating => [e.message]}
