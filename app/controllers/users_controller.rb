@@ -12,6 +12,18 @@ class UsersController < ApiController
       if user_params[:password]
         signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
         sign_in(@user)
+
+        if @user.linked
+          # remote update password
+          @user.remote_login_and_set_headers
+          remote_valid_update = User.remote_update_account(@user.email, user_params[:password], @user.headers)
+          #local update password
+          valid_update = @user.update_account(@user.email, user_params[:password])
+          if not (valid_update and remote_valid_update.code == "200")
+            raise 'La actualización de contraseña no pudo realizarse. Favor de ponerse en contacto con el administrador.' 
+          end
+        end
+        
       end
       render json: @user
     else
@@ -39,7 +51,7 @@ class UsersController < ApiController
     begin
       response = User.remote_authenticate params[:email], params[:password] 
       if response.code == "200" 
-        session[:request_headers] = Connection.get_headers response
+        current_user.set_headers(Connection.get_headers response)
         render json: current_user, status: :ok
       else
         raise 'El correo electrónico o la contraseña son incorrectos.'
@@ -54,13 +66,13 @@ class UsersController < ApiController
   # @password definitive password for both systems
   def synchronize_accounts
     begin
-      remote_valid_email = User.remote_validate_email(params[:email], session[:request_headers])
+      remote_valid_email = User.remote_validate_email(params[:email], current_user.headers)
       valid_email = current_user.validate_email(params[:email])
       
       if valid_email and remote_valid_email.code == "200"
         
         # synchronize user, password
-        remote_valid_update = User.remote_update_account(params[:email], params[:password], session[:request_headers])
+        remote_valid_update = User.remote_update_account(params[:email], params[:password], current_user.headers)
         valid_update = current_user.update_account(params[:email], params[:password]) 
         
         if valid_update and remote_valid_update.code == "200"
@@ -99,7 +111,7 @@ class UsersController < ApiController
     begin
       response = current_user.remote_login 
       if response.code == "200"
-        session[:request_headers] = Connection.get_headers response
+        current_user.set_headers(Connection.get_headers response)
         render json: current_user, status: :ok
       else
         raise 'Autenticación incorrecta.'
@@ -139,7 +151,7 @@ class UsersController < ApiController
   def migrate_accounts
     begin
       # send classes_left 
-      response = User.remote_send_classes_left(current_user.classes_left, current_user.expiration_date, session[:request_headers])
+      response = User.remote_send_classes_left(current_user.classes_left, current_user.expiration_date, current_user.headers)
       if response.code == "200"
 
         valid_migration = current_user.update_attribute("linked", true)

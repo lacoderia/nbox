@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180214215212) do
+ActiveRecord::Schema.define(version: 20180219182332) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -275,8 +275,8 @@ ActiveRecord::Schema.define(version: 20180214215212) do
     t.boolean  "test",                   default: false
     t.boolean  "linked",                 default: false
     t.string   "u_password"
-    t.string   "old_conekta_id"
     t.integer  "old_classes_left"
+    t.text     "headers"
     t.index ["email"], name: "index_users_on_email", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree

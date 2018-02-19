@@ -27,8 +27,6 @@ class User < ActiveRecord::Base
   
   scope :with_appointments_summary, -> {select("users.*, COUNT(CASE WHEN appointments.status = 'BOOKED' THEN 1 END) as booked, COUNT(CASE WHEN appointments.status = 'CANCELLED' THEN 1 END) as cancelled, COUNT(CASE WHEN appointments.status = 'FINALIZED' THEN 1 END) as finalized").joins(:appointments).group("users.id")}
 
-  attr_accessor :headers   
-
   def role?(role)
     return !!self.roles.find_by_name(role)
   end
@@ -54,8 +52,11 @@ class User < ActiveRecord::Base
     if self.linked
       # Connect to remote server
       begin
-        response = self.remote_login 
-        self.headers = Connection.get_headers response
+        response = self.remote_login_and_set_headers 
+        if not response
+          # get session
+          response = self.get_session
+        end
         remote_user = JSON.parse(response.body)
         if remote_user["user"]["classes_left"] 
 
@@ -224,6 +225,40 @@ class User < ActiveRecord::Base
     return Connection.post_with_headers remote_update_account_path, user_params, headers 
 
   end 
+
+  def remote_get_session
+    remote_session_path = "http://#{ENV['REMOTE_HOST']}/session"
+    return Connection.get_with_headers remote_session_path, self.headers
+
+  end
+
+  def remote_login_and_set_headers
+
+    if self.headers 
+      expiry_time = Time.at(self.headers["expiry"].to_i)
+      #Close to expire      
+      if expiry_time <= (Time.zone.now + 1.hour)
+        # Get new headers
+        response = self.remote_login 
+        self.headers = Connection.get_headers response
+        self.save!
+        return response
+      end
+    else 
+      #Get new headers
+      response = self.remote_login 
+      self.headers = Connection.get_headers response
+      self.save!
+      return response
+    end
+    return nil
+
+  end
+
+  def set_headers headers
+    self.headers = headers
+    self.save!
+  end
  
   # N-box unique methods
 
@@ -237,23 +272,10 @@ class User < ActiveRecord::Base
 
   def remote_update_attributes params_hash
     
-    if self.headers 
-      expiry_time = Time.at(self.headers["expiry"].to_i)
-      if expiry_time <= Time.zone.now
-        # Get new headers
-        response = self.remote_login 
-        self.headers = Connection.get_headers response
-      end
-    # This code is kept to be used during console automation and tests, but should not be called in normal app operation
-    else 
-      #Get new headers
-      response = self.remote_login 
-      self.headers = Connection.get_headers response
-    end
-
+    self.remote_login_and_set_headers
+    
     remote_update_user_path = "http://#{ENV['REMOTE_HOST']}/users/#{self.id}"
-    user_params = params_hash
-    return Connection.put_with_headers remote_update_user_path, user_params, self.headers
+    return Connection.put_with_headers remote_update_user_path, params_hash, self.headers
 
   end
 
