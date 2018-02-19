@@ -54,13 +54,16 @@ class Connection
 
   end
 
-  def self.set_headers request, headers #{access_token, uid, client, expiry, token_type}
+  #{access_token, uid, client, expiry, token_type}
+  def self.set_headers request, headers_text
+
+    headers = eval(headers_text)
     
-    request.add_field "access-token", eval(headers["access-token"])
-    request.add_field "uid", eval(headers["uid"])
-    request.add_field "client", eval(headers["client"])
-    request.add_field "expriy", eval(headers["expriy"])
-    request.add_field "token-type", eval(headers["token-type"])
+    request.add_field "access-token", headers["access-token"]
+    request.add_field "uid", headers["uid"]
+    request.add_field "client", headers["client"]
+    request.add_field "expriy", headers["expriy"]
+    request.add_field "token-type", headers["token-type"]
 
     return request
 
