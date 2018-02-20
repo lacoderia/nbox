@@ -112,7 +112,8 @@ ActiveAdmin.register User, :as => "Todos_los_clientes" do
     column "Ligada", :linked
 
     actions defaults: false do |user|
-      links = "#{link_to "View Credits", "#{admin_modificaciones_de_creditos_path}?q%5Buser_id_equals%5D=#{user.id}&commit=Filter&order=id_desc"} " if not user.linked
+      links = ""
+      links += "#{link_to "View Credits", "#{admin_modificaciones_de_creditos_path}?q%5Buser_id_equals%5D=#{user.id}&commit=Filter&order=id_desc"} " if not user.linked
       links += "#{link_to "Edit Credits", "#{admin_todos_los_cliente_path(user.id)}/edit"} " if not user.linked
       if user.purchases.empty?
         links += "#{link_to "Delete", admin_todos_los_cliente_path(user.id), method: :delete, data: {:confirm => "Eliminarás al usuario. ¿Estás seguro?"} }"
