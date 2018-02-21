@@ -55,6 +55,12 @@ class UsersController < ApiController
     begin
       response = User.remote_authenticate params[:email], params[:password] 
       if response.code == "200" 
+        
+        remote_user_linked = JSON.parse(response.body)["user"]["linked"]
+        if remote_user_linked
+          raise 'La cuenta de N-bici ya ha sido sincronizada anteriormente'
+        end
+        
         current_user.set_headers(Connection.get_headers response)
         render json: current_user, status: :ok
       else
