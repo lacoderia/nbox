@@ -7,7 +7,7 @@ class Schedule < ActiveRecord::Base
 
   def self.weekly_scope
     start_day = Time.zone.now.beginning_of_day
-    end_day = start_day + 8.days
+    end_day = start_day + 7.days
     schedules = Schedule.where("datetime >= ? AND datetime < ?", start_day, end_day)
 
     #If thare are no schedules next week
