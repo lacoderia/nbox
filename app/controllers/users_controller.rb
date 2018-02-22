@@ -174,7 +174,8 @@ class UsersController < ApiController
         valid_migration = current_user.update_attribute("linked", true)
          
         if valid_migration
-          render json: current_user, status: :ok
+          @user = User.find(current_user.id)
+          render json: @user, status: :ok
         else
           # should not happen
           # local rollback
