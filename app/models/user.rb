@@ -57,14 +57,22 @@ class User < ActiveRecord::Base
           # get session
           response = self.get_session
         end
-        remote_user = JSON.parse(response.body)
-        if remote_user["user"]["classes_left"] 
+
+        response = JSON.parse(response.body)
+
+        if response["user"] and response["user"]["classes_left"]
 
           if not self.old_classes_left
             self.old_classes_left = self.classes_left
           end
-          self.classes_left = remote_user["user"]["classes_left"]
+          self.classes_left = response["user"]["classes_left"]
 
+        #updating password from n-bici frontend
+        elsif response["errors"][0]["id"] == "incorrect_login" and self.is_being_updated?
+          self.update_attribute("is_being_updated", false)
+          return
+        else
+          raise 'Error actualizando desde N-bici. Favor de contactar al administrador.'
         end
       rescue Exception => e
         raise 'Error de comunicación obteninedo propiedades de N-bici. Favor de contactar al administrador.'

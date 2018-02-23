@@ -138,6 +138,9 @@ class UsersController < ApiController
 
   def update_account
     begin
+      if current_user.linked?
+        current_user.update_attribute("is_being_updated", true)        
+      end
       valid_update = current_user.update_account params[:email], params[:password]
 
       if valid_update
