@@ -5,6 +5,10 @@ Rails.application.configure do
   ENV['WP_HOST'] = "localhost:3000"
   ENV['CONEKTA_KEY'] = 'key_8ieGVhxzTt5fcSYUyE4Tig'
 
+  # REMOTE SYNCH VARIABLES
+  ENV['SYNCH_KEY'] = 'd41d8cd98f00b204e9800998ecf8427e'
+  ENV['REMOTE_HOST'] = '127.0.0.1:22789'
+
   # The test environment is used exclusively to run your application's
   # test suite. You never need to work with it otherwise. Remember that
   # your test database is "scratch space" for the test suite and is wiped

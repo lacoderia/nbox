@@ -3,12 +3,12 @@ feature 'SchedulesController' do
   let!(:starting_datetime) { Time.zone.parse('01 Jan 2016 01:00:00') }  
   
   let!(:schedule_current_week_01) { create(:schedule, datetime: starting_datetime, description: "semana uno" ) }
-  let!(:schedule_current_week_02) { create(:schedule, :with_alternate_instructor, datetime: starting_datetime + 7.days + 22.hours + 59.minutes) }
+  let!(:schedule_current_week_02) { create(:schedule, :with_alternate_instructor, datetime: starting_datetime + 6.days + 22.hours + 59.minutes) }
   let!(:schedule_past_week) { create(:schedule, datetime: starting_datetime - 1.day) }
-  let!(:schedule_next_week) { create(:schedule, :with_alternate_instructor, datetime: starting_datetime + 8.days, free: true) }
+  let!(:schedule_next_week) { create(:schedule, :with_alternate_instructor, datetime: starting_datetime + 7.days, free: true) }
 
   let!(:schedule_next_2_months) { create(:schedule, :with_alternate_instructor, datetime: starting_datetime + 1.month) }
-  let!(:schedule_next_2_months_and_a_week) { create(:schedule, datetime: starting_datetime + 1.month + 8.days)}
+  let!(:schedule_next_2_months_and_a_week) { create(:schedule, datetime: starting_datetime + 1.month + 7.days)}
 
   let!(:appointment_01) { create(:appointment, schedule: schedule_current_week_01, station_number: 4) }
   let!(:appointment_02) { create(:appointment, schedule: schedule_current_week_01, station_number: 1) }
@@ -36,7 +36,7 @@ feature 'SchedulesController' do
         expect(response['schedules'][1]['available_seats']).to eql 4
 
         # Next week
-        one_week_after = starting_datetime + 7.days + 23.hours + 59.minutes
+        one_week_after = starting_datetime + 6.days + 23.hours + 59.minutes
         Timecop.travel(one_week_after)
 
         visit weekly_scope_schedules_path
