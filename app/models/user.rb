@@ -75,7 +75,11 @@ class User < ActiveRecord::Base
           raise 'Error actualizando desde N-bici. Favor de contactar al administrador.'
         end
       rescue Exception => e
-        raise 'Error de comunicación obteninedo propiedades de N-bici. Favor de contactar al administrador.'
+        if not e.message == 'Error actualizando desde N-bici. Favor de contactar al administrador.' 
+          raise 'Error de comunicación obteninedo propiedades de N-bici. Favor de contactar al administrador.'
+        else
+          raise e.message
+        end
       end
     end
   end
