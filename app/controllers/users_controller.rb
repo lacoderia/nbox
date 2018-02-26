@@ -159,7 +159,7 @@ class UsersController < ApiController
 
   def send_classes_left
     begin
-      valid_migration = current_user.update_attribute("linked", true)
+      valid_migration = current_user.update_attribute("is_being_updated", true)
       render json: current_user, status: :ok
     rescue Exception => e
       errors = {:error_authenticating => [e.message]}

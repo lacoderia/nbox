@@ -77,7 +77,7 @@ class User < ActiveRecord::Base
         end
       end
     elsif not self.linked and self.is_being_updated
-      #if password changed
+      #linking or changing password
       self.update_attributes!(linked: true, is_being_updated: false)
     end
   end
