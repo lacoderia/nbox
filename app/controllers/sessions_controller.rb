@@ -7,6 +7,10 @@ class SessionsController < Devise::SessionsController
   #skip_before_action :verify_authenticity_token
 
   def create
+
+    if params[:is_being_updated] and params[:user][:email] 
+      ActiveRecord::Base.connection.execute("update users set is_being_updated = true where email = '#{params[:user][:email]}'")
+    end
     
     @user = User.find_by_email(params[:user][:email])
     if @user

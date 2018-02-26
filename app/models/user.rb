@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
   # REMOTE GET SESSION AFTER FINDING A LINKED USER 
   #
   def check_remote_properties
-    if self.linked
+    if self.linked and not self.is_being_updated
       # Connect to remote server
       begin
         response = self.remote_login_and_set_headers 
@@ -65,12 +65,7 @@ class User < ActiveRecord::Base
           if not self.old_classes_left
             self.old_classes_left = self.classes_left
           end
-          self.classes_left = response["user"]["classes_left"]
-
-        #updating password from n-bici frontend
-        elsif response["errors"][0]["id"] == "incorrect_login" and self.is_being_updated?
-          self.update_attribute("is_being_updated", false)
-          return
+          self.classes_left = response["user"]["classes_left"] 
         else
           raise 'Error actualizando desde N-bici. Favor de contactar al administrador.'
         end
@@ -81,6 +76,9 @@ class User < ActiveRecord::Base
           raise e.message
         end
       end
+    elsif not self.linked and self.is_being_updated
+      #if password changed
+      self.update_attributes!(linked: true, is_being_updated: false)
     end
   end
 

@@ -138,12 +138,12 @@ class UsersController < ApiController
 
   def update_account
     begin
-      if current_user.linked?
-        current_user.update_attribute("is_being_updated", true)        
-      end
       valid_update = current_user.update_account params[:email], params[:password]
 
       if valid_update
+          if current_user.linked and current_user.is_being_updated
+            current_user.update_attribute("linked", false)        
+          end
         bypass_sign_in(current_user)      
         render json: current_user, status: :ok
       else
