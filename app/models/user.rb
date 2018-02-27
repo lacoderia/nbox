@@ -282,11 +282,15 @@ class User < ActiveRecord::Base
 
   def remote_update_attributes params_hash
     
-    self.remote_login_and_set_headers
+    response = self.remote_login_and_set_headers
+    response = JSON.parse(response.body)
     
-    remote_update_user_path = "http://#{ENV['REMOTE_HOST']}/users/#{self.id}"
-    return Connection.put_with_headers remote_update_user_path, params_hash, self.headers
-
+    if response["user"]
+      remote_update_user_path = "http://#{ENV['REMOTE_HOST']}/users/#{response['user']['id']}"
+      return Connection.put_with_headers remote_update_user_path, params_hash, self.headers
+    else
+      raise "Error de comunicación con Nbici al intentar actualizar datos. Favor de ponerse en contacto con el administrador."      
+    end
   end
 
   private 
