@@ -134,7 +134,7 @@ ActiveAdmin.register User, :as => "Todos_los_clientes" do
       f.fields_for :credit_modifications do |t|
         if t.object.new_record?
           t.inputs do
-            t.input :pack, label: "Purchased pack", :collection => Pack.all.collect {|pack| [pack.classes, pack.id]}, :as => :select, input_html: { id: "pack_id", onchange: "if(!this.value){ $('#credit_id')[0].readOnly=false; $('#credit_id')[0].style = 'background-color: #FFFFFF;'} else {$('#credit_id').val(this.options[this.selectedIndex].text); $('#credit_id')[0].readOnly=true; $('#credit_id')[0].style = 'background-color: #d3d3d3;'}" }
+            t.input :pack, label: "Purchased pack", :collection => Pack.active.collect {|pack| [pack.classes, pack.id]}, :as => :select, input_html: { id: "pack_id", onchange: "if(!this.value){ $('#credit_id')[0].readOnly=false; $('#credit_id')[0].style = 'background-color: #FFFFFF;'} else {$('#credit_id').val(this.options[this.selectedIndex].text); $('#credit_id')[0].readOnly=true; $('#credit_id')[0].style = 'background-color: #d3d3d3;'}" }
             t.input :credits, :as => :number, input_html: {id: "credit_id"}
             t.input :reason, input_html: {id: "reason_id"}
           end
