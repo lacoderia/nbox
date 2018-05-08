@@ -620,7 +620,7 @@
                         <td valign="top" class="mcnTextContent" style="padding: 0px 18px 9px;color: #FFFFFF;line-height: 150%;">
                         
                             <h1 style="text-align: center;"><span style="color:#FFFFFF; font-size:30px"><%= @user.first_name.split.map(&:capitalize).join(' ').upcase %>, TUS CLASES<br>
-EXPIRARÁN PRONTO</span></h1>
+EXPIRARÁN EL <%= @user.expiration_date.strftime("%d/%m/%Y") %></span></h1>
 &nbsp;
 
 <h2 style="text-align: center;"><span style="color:#FFFFFF">¡NO TE QUEDES SIN ENTRENAR!</span></h2>
