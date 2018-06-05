@@ -8,6 +8,7 @@ ActiveAdmin.register User, :as => "Todos_los_clientes" do
   filter :last_name, :as => :string, :label => "Apellido"
   filter :email, :as => :string
   filter :linked, :label => "Ligada"
+  filter :created_at, :label => "Fecha de creación"  
 
   config.sort_order = 'created_at_desc'
 
@@ -110,6 +111,7 @@ ActiveAdmin.register User, :as => "Todos_los_clientes" do
       user.classes_left if not user.linked
     end
     column "Ligada", :linked
+    column "Fecha de creación", :created_at     
 
     actions defaults: false do |user|
       links = ""
