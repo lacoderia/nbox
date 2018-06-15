@@ -13,6 +13,33 @@ class Config < ActiveRecord::Base
   DEFAULT_FREE_CLASSES_START_DATE = "2017-01-01T00:00:00-05:00"
   DEFAULT_FREE_CLASSES_END_DATE = "2017-01-01T00:00:01-05:00"
 
+  #Default special prices in every purchase
+  DEFAULT_SPECIAL_PRICES_IN_EVERY_PURCHASE_START_DATE = "2018-06-18T00:00:00-05:00"
+  DEFAULT_SPECIAL_PRICES_IN_EVERY_PURCHASE_END_DATE = "2018-06-18T07:00:01-05:00"
+
+  def self.force_special_price?
+    special_prices_start_date = Config.find_by_key("special_prices_start_date")
+    if special_prices_start_date
+      special_prices_start_date = special_prices_start_date.value    
+    else
+      special_prices_start_date = DEFAULT_SPECIAL_PRICES_IN_EVERY_PURCHASE_START_DATE 
+    end
+
+    special_prices_end_date = Config.find_by_key("special_prices_end_date")
+    if special_prices_end_date
+      special_prices_end_date = special_prices_end_date.value    
+    else
+      special_prices_end_date = DEFAULT_SPECIAL_PRICES_IN_EVERY_PURCHASE_END_DATE 
+    end
+    
+    if (Time.zone.now >= special_prices_start_date) and (Time.zone.now < special_prices_end_date)
+      return true 
+    else
+      return false 
+    end 
+
+  end
+
   def self.coupon_discount
     coupon_discount = Config.find_by_key("coupon_discount")
     if coupon_discount
