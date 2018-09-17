@@ -149,15 +149,19 @@ ActiveAdmin.register User, :as => "Todos_los_clientes" do
   end
   
   csv do
+
     column "Nombre" do |user|
-      user.first_name
+      user.first_name if user.first_name
     end
+
     column "Apellido" do |user|
-      user.last_name
+      user.last_name if user.last_name
     end
+
     column "Email" do |user|
-      user.email
+      user.email if user.email
     end
+
   end
 
 end
